@@ -1,0 +1,11 @@
+{
+  "name": "xsandra",
+  "version": "0.0.2",
+  "description": "Javascript Game Engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arianit Halimi",
+  "license": "ISC"
+}
