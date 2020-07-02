@@ -1,11 +1,24 @@
 {
   "name": "xsandra",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Javascript Game Engine",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": {},
+  "keywords": [
+    "Javascript",
+    "GameEngine"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArianitHalimi/Xsandra.git"
   },
   "author": "Arianit Halimi",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArianitHalimi/Xsandra/issues"
+  },
+  "homepage": "https://github.com/ArianitHalimi/Xsandra#readme",
+  "dependencies": {
+    "electron": "^9.0.5"
+  }
 }
