@@ -1,9 +1,13 @@
 {
   "name": "xsandra",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Javascript Game Engine",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "preinstall": "node ./install/preinstall.js",
+    "postinstall": "node ./install/postinstall.js",
+    "postuninstall": "node ./install/uninstall.js"
+  },
   "keywords": [
     "Javascript",
     "GameEngine"
