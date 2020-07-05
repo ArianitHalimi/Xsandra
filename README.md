@@ -52,6 +52,9 @@ Commands:
     ```view.simpleShape().rectangle(height,width,[...options])```: creates a rectangle  
     ```view.simpleShape().text(message,[...options])```: displays text  
     ```view.simpleShape().imageAsShape(imgsrc,[...options])```: creates an image  
+    ```view.simpleShape().line(startX,startY,destinationX,destinationY,[...options])```: creates a line between those two points  
+    ```view.simpleShape().triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,[...options])```: creates a triangle  
+    ```view.simpleShape().circle(x,y,radius,[...options])```: creates a circle  
 
 ## License
 [ISC](https://opensource.org/licenses/ISC)
