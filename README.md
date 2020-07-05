@@ -28,20 +28,30 @@ On main file to access Xsandra you need to have
 const xsandra = require('xsandra').Engine
 ```
 
-Commands:
-    ```run()```: Runs the application
-    ```toggleFullscreen()```: Makes fullscreen window
-    ```setWindowSize([width,height])```: Sets window size to specific width and height
+Commands:  
+    ```run()```: Runs the application  
+    ```toggleFullscreen()```: Makes fullscreen window  
+    ```setWindowSize([width,height])```: Sets window size to specific width and height  
 
-on script file you need to have
+On script file you need to have
 ```bash
 const Script = require('xsandra').Script
 ```
 
-Commands:
+Commands:  
     ```execute([root])```: executes your script with root as base of the window
 
 At the end you must export your script ```module.exports = Script.execute(()=>{...})```
+
+Inside scripts you can implement shapes
+```bash
+const view = require('xsandra').View
+```
+
+Commands:  
+    ```view.simpleShape().rectangle(height,width,[...options])```: creates a rectangle  
+    ```view.simpleShape().text(message,[...options])```: displays text  
+    ```view.simpleShape().imageAsShape(imgsrc,[...options])```: creates an image  
 
 ## License
 [ISC](https://opensource.org/licenses/ISC)
