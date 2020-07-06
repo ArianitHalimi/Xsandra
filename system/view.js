@@ -20,13 +20,30 @@ class View{
 }
   
 class SimpleShapes extends View{
+    deleteShape(x,y,height,width){
+      var ctx = document.getElementById('mainframe').getContext('2d')
+      ctx.clearRect(x,y,width,height)
+    }
     rectangle(height,width,options = {x : 0,y : 0,color:'#FF0000',outline:false,outlineColor:'#FFFFFF',outlineSize:5}){
       var ctx = document.getElementById('mainframe').getContext('2d')
       this.style(ctx,options.color,options.outlineColor,options.outline)
-      ctx.fillRect(options.x,options.y,height,width)
+      ctx.fillRect(options.x,options.y,width,height)
       if(options.outline){
         ctx.lineWidth = options.outlineSize
         ctx.strokeRect(options.x,options.y,height,width)
+      }
+      return {
+        type:'rectangle',
+        height:height,
+        width:width,
+        options:{
+          x:options.x,
+          y:options.y,
+          color:options.color,
+          outline: options.outline,
+          outlineColor: options.outlineColor,
+          outlineSize: options.outlineSize
+        }
       }
     }
   
@@ -41,16 +58,32 @@ class SimpleShapes extends View{
       ctx.fillText(message, options.x, options.y);
     }
   
-    imageAsShape(src,options = {x:0,y:0,height,width}){
+    async imageAsShape(src,options = {x:0,y:0,height,width}){
       var img = new Image()
-      img.onload = () => {
+      img.onload = async() => {
         var ctx = document.getElementById('mainframe').getContext('2d')
-        ctx.drawImage(img,options.x,options.y,options.width,options.height)
+        await ctx.drawImage(img,options.x,options.y,options.width,options.height)
       }
       try{
-        img.src = path.join(process.cwd(),src);
+        if(src.startsWith('http')) img.src = src;
+        else{
+          img.src = await path.join(process.cwd(),src);
+        }
       }catch(err){
           throw new Error('Error loading the image. Path not found')
+      }
+      
+      return {
+        type:'image',
+        src: src,
+        height:options.height,
+        width:options.width,
+        options:{
+          x:options.x,
+          y:options.y,
+          height:options.height,
+          width: options.width
+        }
       }
     }
   
