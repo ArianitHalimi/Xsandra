@@ -119,12 +119,17 @@ class SimpleShapes extends View{
       ctx.arc(x, y, radius, 0, Math.PI*2,true)
       this.style(ctx,options.color,options.outlineColor,options.outline)
       ctx.fill()
-      ctx.stroke()
+      if(options.outline) ctx.stroke()
       return{
+        type:'circle',
         x:x,
         y:y,
         radius:radius,
+        height:radius,
+        width:radius,
         options:{
+          x:x,
+          y:y,
           color:options.color,
           outline:options.outline,
           outlineColor:options.outlineColor

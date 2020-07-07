@@ -1,7 +1,18 @@
 class System{
     bounddetect = false
+    isGravityApplied = false
+    gravity = 0
+    friction = 0
     innerBound(){
         this.bounddetect = true
+    }
+    applyGravity(gravity,friction){
+        this.isGravityApplied = true
+        this.gravity = gravity
+        this.friction = friction
+    }
+    unapplyGravity(){
+        this.isGravityApplied = false
     }
     simulate(view,obj,dx,dy){
         try{
@@ -10,15 +21,19 @@ class System{
         }catch(err){
             //
         }
-        
         view.simpleShape().deleteShape(obj.options.x,obj.options.y,obj.height+1,obj.width+1)
         
         if(this.bounddetect){
+            console.log(dy);
+            
             if((obj.options.x + obj.width) > window.innerWidth || obj.options.x<0){
                 dx = (-dx)
             }
-            if((obj.options.y+ obj.height) > window.innerHeight || obj.options.y<0){
-                dy = (-dy)
+            if((obj.options.y + obj.height) > window.innerHeight || obj.options.y<0){
+                if(this.isGravityApplied) dy = (-dy) * this.friction
+                else  dy = (-dy)
+            }else{
+                if(this.isGravityApplied) dy += this.gravity
             }
         }
 
@@ -27,9 +42,6 @@ class System{
         
         if(obj.type == 'rectangle'){
             view.simpleShape().rectangle(obj.height,obj.width,obj.options)
-        }
-        if(obj.type=='image'){
-            view.simpleShape().imageAsShape(obj.src,obj.options)
         }
         requestAnimationFrame(()=>{
             this.simulate(view,obj,dx,dy)

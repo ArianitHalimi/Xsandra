@@ -1,20 +1,55 @@
 const path = require('path')
+const fs = require('fs')
 
 class Audio{
-    eventNoChangeMain = false
-
-    play(src){
-        var audioElement = document.createElement('audio')
-        document.body.appendChild(audioElement);
-        document.querySelector('audio').setAttribute('id','mainAudio')
-        document.querySelector('audio').setAttribute('style','display: none')
-        document.querySelector('audio').setAttribute('src',`${path.join(process.cwd(),src)}`)
-        document.querySelector('audio').setAttribute('autoplay','true')
-        document.getElementById("mainAudio").autoplay;
-        this.eventNoChangeMain = true
+    raiseError(errorMessage){
+        console.log(errorMessage);
     }
-    changeAudio(src){
-        document.getElementById('mainAudio').src = `${path.join(process.cwd(),src)}`
+    isSupportedPath(src){
+        if(fs.existsSync(path.join(process.cwd(),src))) this.raiseError('Invalid path')
+    }
+    isSupported(src){
+        var extension = src.split('.')
+        if(extension[extension.length-1] !== ( 'mp3' || 'ogg' || 'wav')) this.raiseError('Unsupported format type')
+    }
+    play(src,loop=false){
+        this.isSupportedPath(src)
+        this.isSupported(src)
+        if(document.getElementById('mainAudio') !== null) this.changeAudio(src,loop)
+        else{
+            var audioElement = document.createElement('audio')
+            document.body.appendChild(audioElement);
+            document.querySelector('audio').setAttribute('id','mainAudio')
+            document.querySelector('audio').setAttribute('style','display: none')
+            document.querySelector('audio').setAttribute('src',`${path.join(process.cwd(),src)}`)
+            document.querySelector('audio').setAttribute('autoplay','true')
+            if(loop) document.querySelector('audio').setAttribute('loop','true')
+            document.getElementById("mainAudio").autoplay;
+        }
+    }
+
+    changeAudio(src,loop=false){
+        this.isSupportedPath(src)
+        this.isSupported(src)
+        if(document.getElementById('mainAudio') == null) this.play(src,loop)
+        else{
+            document.getElementById('mainAudio').src = `${path.join(process.cwd(),src)}`
+            if(loop) document.getElementById('mainAudio').loop = true
+        }
+    }
+
+    playbackRate(number){
+        document.getElementsByTagName('audio')[0].playbackRate = number > 0 ? number : -number
+    }
+
+    playOnReverse(){
+        if(document.getElementById('mainAudio') == null) this.raiseError('Please set up an audio before using this method')
+        //document.querySelector('audio').setAttribute('playbackRate','-1')
+    }
+
+    playAudioAtTime(time){
+        if(document.getElementById('mainAudio') == null) this.raiseError('Please set up an audio before using this method')
+        document.getElementById('mainAudio').currentTime = time < 0 ? -time : time
     }
 }
 

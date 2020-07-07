@@ -11,7 +11,7 @@ class Event{
 }
 
 class MouseEvent{
-    detect(shapeX,shapeY,shapeWidth,shapeHeight,mouseX,mouseY){
+    AxisAlignedBoundingBoxAlgorithm(shapeX,shapeY,shapeWidth,shapeHeight,mouseX,mouseY){
         if(mouseX>shapeX && mouseX<(shapeX + shapeWidth) && mouseY>shapeY && mouseY<(shapeHeight+shapeY)){
             return true
         }
@@ -20,7 +20,7 @@ class MouseEvent{
     hasOccurred(shape,e,foo){
         if(shape=='screen') foo(e)
         if(shape.type=='rectangle'){
-            if(this.detect(shape.options.x,shape.options.y,shape.height,shape.width,e.clientX,e.clientY)) foo(e)
+            if(this.AxisAlignedBoundingBoxAlgorithm(shape.options.x,shape.options.y,shape.height,shape.width,e.clientX,e.clientY)) foo(e)
         }
     }
     on(event,shape,foo){
@@ -121,9 +121,9 @@ class KeyboardEvent{
 
 class WindowEvent{
     onResize(foo){
-        window.addEventListener('resize', function(){
-            foo()
-          });
+        window.addEventListener('resize', function(e){
+            foo(e)
+        });
     }
 }
 
