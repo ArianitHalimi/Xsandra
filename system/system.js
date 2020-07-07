@@ -12,7 +12,6 @@ class System{
         }
         
         view.simpleShape().deleteShape(obj.options.x,obj.options.y,obj.height+1,obj.width+1)
-        //console.log((obj.options.x) + "," + (obj.options.y)+","+(obj.height+1)+","+(obj.width+1));
         
         if(this.bounddetect){
             if((obj.options.x + obj.width) > window.innerWidth || obj.options.x<0){
@@ -22,8 +21,10 @@ class System{
                 dy = (-dy)
             }
         }
+
         obj.options.x += dx;
         obj.options.y += dy;
+        
         if(obj.type == 'rectangle'){
             view.simpleShape().rectangle(obj.height,obj.width,obj.options)
         }

@@ -11,72 +11,83 @@ class Event{
 }
 
 class MouseEvent{
-    on(event,foo){
-        this[event](foo) // this.event(foo)
+    detect(shapeX,shapeY,shapeWidth,shapeHeight,mouseX,mouseY){
+        if(mouseX>shapeX && mouseX<(shapeX + shapeWidth) && mouseY>shapeY && mouseY<(shapeHeight+shapeY)){
+            return true
+        }
+        return false;
     }
-    click(foo){
+    hasOccurred(shape,e,foo){
+        if(shape=='screen') foo(e)
+        if(shape.type=='rectangle'){
+            if(this.detect(shape.options.x,shape.options.y,shape.height,shape.width,e.clientX,e.clientY)) foo(e)
+        }
+    }
+    on(event,shape,foo){
+        this[event](shape,foo)
+    }
+    click(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('click',(e)=>{
-            event = {X:e.clientX,Y:e.clientY,alt:e.altKey,shift:e.shiftKey}
-            foo(event)
+            this.hasOccurred(shape,e,foo)
         })
     }
-    wheel(foo){
+    wheel(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('onwheel',(e)=>{
-            foo(e)
+            this.hasOccurred(shape,e,foo)
         })
     }
-    hold(foo){
+    hold(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mousedown',(e)=>{
-            foo(e)
+            this.hasOccurred(shape,e,foo)
         })
     }
-    release(){
+    release(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mouseup',(e)=>{
-            foo(e)
+            this.hasOccurred(shape,e,foo)
         })
     }
-    rightClick(foo){
+    rightClick(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('contextmenu',(e)=>{
             e.preventDefault();
-            foo(e)
+            this.hasOccurred(shape,e,foo)
             return false
         },false)
     }
-    wheelClick(foo){
+    wheelClick(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('click',(e)=>{
             if (e && (e.which == 2 || e.button == 4 )) {
-                foo(e)
+                this.hasOccurred(shape,e,foo)
             }
         })
     }
-    mouseIn(foo){
+    mouseIn(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mouseover',(e)=>{
-            foo(e)
+            this.hasOccurred(shape,e,foo)
         })
     }
-    mouseOut(){
+    mouseOut(shape,foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mouseout',(e)=>{
-            foo(e)
+            this.hasOccurred(shape,e,foo)
         })
     }
 }
 
 class KeyboardEvent{
-    keyPress(){
+    keyPress(foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('keydown',(e)=>{
             foo(e)
         })
     }
-    keyRelease(){
+    keyRelease(foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('keyup',(e)=>{
             foo(e)
@@ -117,10 +128,3 @@ class WindowEvent{
 }
 
 module.exports = Event;
-//event.mouseEvent().click(()=>{...})
-//event.mouseEvent().on('click',()=>{
-
-//})
-//event.mouse().click(()=>{
-
-//})

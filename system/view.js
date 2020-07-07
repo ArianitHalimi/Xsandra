@@ -120,6 +120,16 @@ class SimpleShapes extends View{
       this.style(ctx,options.color,options.outlineColor,options.outline)
       ctx.fill()
       ctx.stroke()
+      return{
+        x:x,
+        y:y,
+        radius:radius,
+        options:{
+          color:options.color,
+          outline:options.outline,
+          outlineColor:options.outlineColor
+        }
+      }
     }
 
     curve(x,y,radius,options = {startAngle:0,endAngle:Math.PI*2,antiClockWise:true,color:'#ff0000',outline:true,outlineColor:'#ff0000'}){

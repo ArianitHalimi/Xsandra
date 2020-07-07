@@ -3,6 +3,7 @@ const View = require('./system/view')
 const Script = require('./system/script')
 const System = require('./system/system')
 const Event = require('./system/event')
+const Audio = require('./system/audio')
 const path = require('path')
 
 class Xsandra{
@@ -58,3 +59,4 @@ module.exports.Script = new Script()
 module.exports.View = new View()
 module.exports.System = new System()
 module.exports.Event = new Event()
+module.exports.Audio = new Audio()
