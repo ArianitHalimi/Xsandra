@@ -16,7 +16,7 @@ class Xsandra{
       width: this.width,
       height: this.height,
       backgroundColor: '#000000',
-      //resizable: false,
+      resizable: false,
       webPreferences: {
         nodeIntegration: false,
         preload: path.join(__dirname,'/scripts/script.js')
@@ -41,7 +41,7 @@ class Xsandra{
   run(){
     app.whenReady().then(() => {
       this.createWindow()
-      //Menu.setApplicationMenu(null)
+      Menu.setApplicationMenu(null)
 
       app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()

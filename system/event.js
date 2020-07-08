@@ -1,3 +1,5 @@
+const pointCollision = require('../utils/pointCollision')
+
 class Event{
     mouseEvent(){
         return new MouseEvent()
@@ -11,17 +13,11 @@ class Event{
 }
 
 class MouseEvent{
-    AxisAlignedBoundingBoxAlgorithm(shapeX,shapeY,shapeWidth,shapeHeight,mouseX,mouseY){
-        if(mouseX>shapeX && mouseX<(shapeX + shapeWidth) && mouseY>shapeY && mouseY<(shapeHeight+shapeY)){
-            return true
-        }
-        return false;
-    }
     hasOccurred(shape,e,foo){
         if(shape=='screen') foo(e)
-        if(shape.type=='rectangle'){
-            if(this.AxisAlignedBoundingBoxAlgorithm(shape.options.x,shape.options.y,shape.height,shape.width,e.clientX,e.clientY)) foo(e)
-        }
+        if((shape.type=='rectangle' || shape.type=='image') && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.height,shape.width)) foo(e)
+        if(shape.type=='circle' && pointCollision.pointCircleCollision(e.clientX,e.clientY,shape.x, shape.y, shape.radius)) foo(e)
+        if(shape.type='triangle' && pointCollision.pointPolygonCollision(e.clientX,e.clientY,[[shape.startX,shape.startY],[shape.firstPX,shape.firstPY],[shape.secondPX,shape.secondPY]])) foo(e)
     }
     on(event,shape,foo){
         this[event](shape,foo)
@@ -93,28 +89,28 @@ class KeyboardEvent{
             foo(e)
         })
     }
-    ctrl(){
+    ctrl(foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==17) return true
+            if(e.keyCode==17) foo(e)
         })
     }
-    shift(){
+    shift(foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==16) return true
+            if(e.keyCode==16) foo(e)
         })
     }
-    alt(){
+    alt(foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==18) return true
+            if(e.keyCode==18) foo(e)
         })
     }
-    enter(){
+    enter(foo){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==13) return true
+            if(e.keyCode==13) foo(e)
         })
     }
 }

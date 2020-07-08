@@ -5,7 +5,18 @@ class View{
         //testing method
       document.write(str.fontcolor(color))
     }
+    setMenu(menu = {}){
+      if(document.getElementById('mainframe') !== null) document.getElementById('mainframe').remove();
+      document.body.style.margin = 0
+      document.body.style.overflow = 'hidden'
+      document.body.appendChild(document.createElement('canvas'));
+      document.querySelector('canvas').style.margin = 0;
+      document.querySelector('canvas').setAttribute('id','mainMenu')
+      document.getElementById('mainMenu').setAttribute('width',window.innerWidth)
+      document.getElementById('mainMenu').setAttribute('height',window.innerHeight)
+    }
     initialize(){
+      if(document.getElementById('mainMenu') !== null) document.getElementById('mainMenu').remove();
       document.body.style.margin = 0
       document.body.style.overflow = 'hidden'
       document.body.appendChild(document.createElement('canvas'));
@@ -46,28 +57,63 @@ class SimpleShapes extends View{
         }
       }
     }
-  
-    text(message,options = {x:0,y:0,fontSize: '30px',italic:false,bold:false,fontFamily:'Sans-Serif',fontColor:'#FF0000'}){
+
+    circle(x,y,radius,options={color:'#ff0000',outline:false,outlineColor:'#ff0000'}){
       var ctx = document.getElementById('mainframe').getContext('2d')
-      var italic = ''
-      var bold = ''
-      if(options.italic) italic = 'italic '
-      if(options.bold) bold = 'bold '
-      this.style(ctx,options.fontColor)
-      ctx.font = `${italic}${bold}${options.fontSize} ${options.fontFamily}`
-      ctx.fillText(message, options.x, options.y);
+      ctx.beginPath()
+      ctx.arc(x, y, radius, 0, Math.PI*2,true)
+      this.style(ctx,options.color,options.outlineColor,options.outline)
+      ctx.fill()
+      if(options.outline) ctx.stroke()
+      return{
+        type:'circle',
+        x:x,
+        y:y,
+        radius:radius,
+        options:{
+          color:options.color,
+          outline:options.outline,
+          outlineColor:options.outlineColor
+        }
+      }
     }
-  
-    async imageAsShape(src,options = {x:0,y:0,height,width}){
+
+    triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,options={color:'#ff0000',outline:false,outlineColor:'#ff0000'}){
+      var ctx = document.getElementById('mainframe').getContext('2d')
+      ctx.beginPath()
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(firstPX,firstPY)
+      ctx.lineTo(secondPX,secondPY)
+      ctx.lineTo(startX,startY)
+      this.style(ctx,options.color,options.outlineColor,options.outline)
+      ctx.fill()
+      ctx.stroke()
+      return{
+        type:'triangle',
+        startX: startX,
+        startY: startY,
+        firstPX: firstPX,
+        firstPY: firstPY,
+        secondPX: secondPX,
+        secondPY: secondPY,
+        options:{
+          color:options.color,
+          outline:options.outline,
+          outlineColor:options.outlineColor
+        }
+      }
+    }
+
+    imageAsShape(src,options = {x:0,y:0,height,width}){
       var img = new Image()
-      img.onload = async() => {
+      img.onload = () => {
         var ctx = document.getElementById('mainframe').getContext('2d')
-        await ctx.drawImage(img,options.x,options.y,options.width,options.height)
+        ctx.drawImage(img,options.x,options.y,options.width,options.height)
       }
       try{
         if(src.startsWith('http')) img.src = src;
         else{
-          img.src = await path.join(process.cwd(),src);
+          img.src = path.join(process.cwd(),src);
         }
       }catch(err){
           throw new Error('Error loading the image. Path not found')
@@ -87,6 +133,17 @@ class SimpleShapes extends View{
       }
     }
   
+    text(message,options = {x:0,y:0,fontSize: '30px',italic:false,bold:false,fontFamily:'Sans-Serif',fontColor:'#FF0000'}){
+      var ctx = document.getElementById('mainframe').getContext('2d')
+      var italic = ''
+      var bold = ''
+      if(options.italic) italic = 'italic '
+      if(options.bold) bold = 'bold '
+      this.style(ctx,options.fontColor)
+      ctx.font = `${italic}${bold}${options.fontSize} ${options.fontFamily}`
+      ctx.fillText(message, options.x, options.y);
+    }
+
     style(ctx,styleColor,strokeColor,hasOutline=false){
       ctx.fillStyle = styleColor
       if(hasOutline) ctx.strokeStyle = strokeColor
@@ -99,42 +156,6 @@ class SimpleShapes extends View{
       ctx.lineTo(destinationX,destinationY)
       this.style(ctx,options.color,options.color,true)
       ctx.stroke()
-    }
-  
-    triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,options={color:'#ff0000',outline:false,outlineColor:'#ff0000'}){
-      var ctx = document.getElementById('mainframe').getContext('2d')
-      ctx.beginPath()
-      ctx.moveTo(startX, startY);
-      ctx.lineTo(firstPX,firstPY)
-      ctx.lineTo(secondPX,secondPY)
-      ctx.lineTo(startX,startY)
-      this.style(ctx,options.color,options.outlineColor,options.outline)
-      ctx.fill()
-      ctx.stroke()
-    }
-  
-    circle(x,y,radius,options={color:'#ff0000',outline:false,outlineColor:'#ff0000'}){
-      var ctx = document.getElementById('mainframe').getContext('2d')
-      ctx.beginPath()
-      ctx.arc(x, y, radius, 0, Math.PI*2,true)
-      this.style(ctx,options.color,options.outlineColor,options.outline)
-      ctx.fill()
-      if(options.outline) ctx.stroke()
-      return{
-        type:'circle',
-        x:x,
-        y:y,
-        radius:radius,
-        height:radius,
-        width:radius,
-        options:{
-          x:x,
-          y:y,
-          color:options.color,
-          outline:options.outline,
-          outlineColor:options.outlineColor
-        }
-      }
     }
 
     curve(x,y,radius,options = {startAngle:0,endAngle:Math.PI*2,antiClockWise:true,color:'#ff0000',outline:true,outlineColor:'#ff0000'}){

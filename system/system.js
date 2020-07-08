@@ -24,14 +24,15 @@ class System{
         view.simpleShape().deleteShape(obj.options.x,obj.options.y,obj.height+1,obj.width+1)
         
         if(this.bounddetect){
-            console.log(dy);
-            
             if((obj.options.x + obj.width) > window.innerWidth || obj.options.x<0){
                 dx = (-dx)
             }
-            if((obj.options.y + obj.height) > window.innerHeight || obj.options.y<0){
+            if(obj.options.y<0){
+                dy = (-dy)
+            }
+            if((obj.options.y + obj.height) > window.innerHeight){
                 if(this.isGravityApplied) dy = (-dy) * this.friction
-                else  dy = (-dy)
+                else dy = (-dy)
             }else{
                 if(this.isGravityApplied) dy += this.gravity
             }
