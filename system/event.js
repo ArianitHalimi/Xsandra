@@ -15,9 +15,10 @@ class Event{
 class MouseEvent{
     hasOccurred(shape,e,foo){
         if(shape=='screen') foo(e)
-        if((shape.type=='rectangle' || shape.type=='image') && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.height,shape.width)) foo(e)
+        if((shape.type=='rectangle' || shape.type == 'image') && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.height,shape.width)) foo(e)
         if(shape.type=='circle' && pointCollision.pointCircleCollision(e.clientX,e.clientY,shape.x, shape.y, shape.radius)) foo(e)
-        if(shape.type='triangle' && pointCollision.pointPolygonCollision(e.clientX,e.clientY,[[shape.startX,shape.startY],[shape.firstPX,shape.firstPY],[shape.secondPX,shape.secondPY]])) foo(e)
+        if(shape.type=='triangle' && pointCollision.pointPolygonCollision(e.clientX,e.clientY,[[shape.startX,shape.startY],[shape.firstPX,shape.firstPY],[shape.secondPX,shape.secondPY]])) foo(e)
+        if(shape.type=='text' && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.options.height,shape.options.width)) foo(e)
     }
     on(event,shape,foo){
         this[event](shape,foo)
@@ -78,39 +79,39 @@ class MouseEvent{
 
 class KeyboardEvent{
     keyPress(foo){
-        var ctx = document.getElementById('mainframe')
-        ctx.addEventListener('keydown',(e)=>{
-            foo(e)
+        window.addEventListener('keydown',(e)=>{
+            var event = {Key:e.key,keyCode:e.keyCode,repeat:e.repeat,timeStamp:e.timeStamp,ctrlKey:e.ctrlKey,shiftKey:e.shiftKey}
+            foo(event)
         })
     }
     keyRelease(foo){
-        var ctx = document.getElementById('mainframe')
-        ctx.addEventListener('keyup',(e)=>{
-            foo(e)
+        window.addEventListener('keyup',(e)=>{
+            var event = {Key:e.key,keyCode:e.keyCode,repeat:e.repeat,timeStamp:e.timeStamp,ctrlKey:e.ctrlKey,shiftKey:e.shiftKey}
+            foo(event)
         })
     }
     ctrl(foo){
-        var ctx = document.getElementById('mainframe')
-        ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==17) foo(e)
+        window.addEventListener('keydown',(e)=>{
+            var event = {repeat:e.repeat,timeStamp:e.timeStamp}
+            if(e.keyCode==17) foo(event)
         })
     }
     shift(foo){
-        var ctx = document.getElementById('mainframe')
-        ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==16) foo(e)
+        window.addEventListener('keydown',(e)=>{
+            var event = {repeat:e.repeat,timeStamp:e.timeStamp}
+            if(e.keyCode==16) foo(event)
         })
     }
     alt(foo){
-        var ctx = document.getElementById('mainframe')
-        ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==18) foo(e)
+        window.addEventListener('keydown',(e)=>{
+            var event = {repeat:e.repeat,timeStamp:e.timeStamp}
+            if(e.keyCode==18) foo(event)
         })
     }
     enter(foo){
-        var ctx = document.getElementById('mainframe')
-        ctx.addEventListener('keydown',(e)=>{
-            if(e.keyCode==13) foo(e)
+        window.addEventListener('keydown',(e)=>{
+            var event = {repeat:e.repeat,timeStamp:e.timeStamp}
+            if(e.keyCode==13) foo(event)
         })
     }
 }

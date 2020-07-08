@@ -6,7 +6,7 @@ class Audio{
         console.log(errorMessage);
     }
     isSupportedPath(src){
-        if(fs.existsSync(path.join(process.cwd(),src))) this.raiseError('Invalid path')
+        if(!fs.existsSync(path.join(process.cwd(),src))) this.raiseError('Invalid path')
     }
     isSupported(src){
         var extension = src.split('.')

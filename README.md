@@ -51,10 +51,12 @@ const view = require('xsandra').View
 Commands:  
     ```view.simpleShape().rectangle(height,width,[...options])```: Creates a rectangle  
     ```view.simpleShape().circle(x,y,radius,[...options])```: Creates a circle  
-    ```view.simpleShape().imageAsShape(imgsrc,[...options])```: Creates an image  
+    ```view.simpleShape().ecllipse(x,y,radiusX,radiusY,[...options])```: Creates an ellipse  
     ```view.simpleShape().triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,[...options])```: Creates a triangle  
+    ```view.simpleShape().imageAsShape(imgsrc,[...options])```: Creates an image  
     ```view.simpleShape().text(message,[...options])```: Displays text  
     ```view.simpleShape().line(startX,startY,destinationX,destinationY,[...options])```: Creates a line between those two points  
+    ```view.simpleShape().curve(x,y,radius,[...options])```: Creates a curve 
 
 Apart from shapes you can play audio
 ```bash
@@ -65,16 +67,16 @@ Commands:
     ```audio.play(source,loop)```: Plays audio  
     ```audio.changeAudio(source,loop)```: Changes current playing audio  
     ```audio.playbackRate(speed)```: Plays the audio in a specific speed  
-    ```audio.playAudioAtTime(time)```: Plays audio at specific time
+    ```audio.playAudioAtTime(time)```: Plays audio at specific time  
 
 You can listen to specific events.  
 ```bash
 const event = require('xsandra').Event
 ```
-Three main types of events are:
-    ```event.mouseEvent()```: Listens for the mouse events  
-    ```event.keyboardEvent()```: Listens for keyboard events(unstable)
-    ```event.windowEvent()```: Listens for window events(unstable)
+Three main types of events are:  
+    ```event.mouseEvent()```: Listens for the mouse events(some shapes not implemented)  
+    ```event.keyboardEvent()```: Listens for keyboard events  
+    ```event.windowEvent()```: Listens for window events  
 
 All these events have chaining methods for their subEvents:  
 For example mouseEvents has these submethods:  

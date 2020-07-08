@@ -32,3 +32,16 @@ const pointPolygonCollision = (pointX, pointY, polygonVertex) => {
 
 module.exports.pointPolygonCollision = pointPolygonCollision
 
+const pointLineCollision = () => {
+    //to be implemented
+}
+
+module.exports.pointLineCollision = pointLineCollision
+
+const pointEllipseCollision = () => {
+    //to be implemented
+}
+
+module.exports.pointEllipseCollision = pointEllipseCollision
+
+
