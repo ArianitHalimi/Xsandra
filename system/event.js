@@ -19,6 +19,8 @@ class MouseEvent{
         if(shape.type=='circle' && pointCollision.pointCircleCollision(e.clientX,e.clientY,shape.x, shape.y, shape.radius)) foo(e)
         if(shape.type=='triangle' && pointCollision.pointPolygonCollision(e.clientX,e.clientY,[[shape.startX,shape.startY],[shape.firstPX,shape.firstPY],[shape.secondPX,shape.secondPY]])) foo(e)
         if(shape.type=='text' && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.options.height,shape.options.width)) foo(e)
+        if(shape.type=='line' && pointCollision.pointLineCollision(e.clientX,e.clientY, shape.startX, shape.startY, shape.destinationX, shape.destinationY)) foo(e)
+        if(shape.type=='ellipse' && pointCollision.pointEllipseCollision(e.clientX,e.clientY,shape.x,shape.y,shape.radiusX,shape.radiusY)) foo(e)
     }
     on(event,shape,foo){
         this[event](shape,foo)

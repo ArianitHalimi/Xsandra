@@ -1,2 +1,4 @@
 var message = 'Uninstalling Xsandra GameEngine now, please wait...\n'
-message += 'We thank you for your time' 
+message += 'We thank you for your time'
+
+console.log(message)

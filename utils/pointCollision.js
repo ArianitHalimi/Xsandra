@@ -32,16 +32,25 @@ const pointPolygonCollision = (pointX, pointY, polygonVertex) => {
 
 module.exports.pointPolygonCollision = pointPolygonCollision
 
-const pointLineCollision = () => {
-    //to be implemented
+const pointLineCollision = (pointX,pointY, startX, startY, endX, endY) => {
+    var d1 = distanceBetweenTwoPoints(pointX,pointY, startX,startY)
+    var d2 = distanceBetweenTwoPoints(pointX,pointY, endX, endY)
+    var lineLen = distanceBetweenTwoPoints(startX,startY, endX,endY)
+    var buffer = 0.1
+    if (d1+d2 >= lineLen-buffer && d1+d2 <= lineLen+buffer) return true
+    return false
 }
 
 module.exports.pointLineCollision = pointLineCollision
 
-const pointEllipseCollision = () => {
-    //to be implemented
+const pointEllipseCollision = (pointX,pointY,ellipseX,ellipseY,ellipseRadius1,ellipseRadius2) => {
+    var x = ((pointX-ellipseX)*(pointX-ellipseX))/(ellipseRadius1*ellipseRadius1)
+    var y = ((pointY-ellipseY)*(pointY-ellipseY))/(ellipseRadius2*ellipseRadius2)
+    return x+y<=1
 }
 
 module.exports.pointEllipseCollision = pointEllipseCollision
 
-
+const distanceBetweenTwoPoints = (x1,y1,x2,y2) => {
+    return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
+}

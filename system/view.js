@@ -82,7 +82,6 @@ class SimpleShapes extends View{
     ellipse(x,y,radiusX,radiusY,options = {color:"#FF0000",outline:false,outlineColor:"#FF0000"}){
       var ctx = document.getElementById('mainframe').getContext('2d')
       ctx.beginPath();
-      //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, anticlockwise]);
       ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI,true);
       this.style(ctx,options.color,options.outlineColor,options.outline)
       ctx.fill()
@@ -123,6 +122,34 @@ class SimpleShapes extends View{
           color:options.color,
           outline:options.outline,
           outlineColor:options.outlineColor
+        }
+      }
+    }
+
+    regularPolygon(x, y, radius, sides,options={color:"#FF0000"}){
+      var edgeCoordinates = []
+      var ctx = document.getElementById('mainframe').getContext('2d')
+      if (sides < 3) console.log('Cannot create a polygon without more than 3 sides')
+      ctx.beginPath();
+      var a = ((Math.PI * 2)/sides);
+      ctx.translate(x,y);
+      ctx.moveTo(radius,0);
+      for (var i = 1; i < sides; i++) {
+        edgeCoordinates.push([radius*Math.cos(a*i),radius*Math.sin(a*i)])
+        ctx.lineTo(radius*Math.cos(a*i),radius*Math.sin(a*i));
+      }
+      this.style(ctx,options.color,options.color,false)
+      ctx.closePath();
+      ctx.fill()
+      return{
+        type:'regularPolygon',
+        centerX:x,
+        centerY:y,
+        radius:radius,
+        sides:sides,
+        edgeCoordinates:edgeCoordinates,
+        options:{
+          color:options.color
         }
       }
     }
@@ -186,12 +213,13 @@ class SimpleShapes extends View{
       }
     }
   
-    line(startX,startY,destinationX,destinationY,options={color:'#FF0000'}){
+    line(startX,startY,destinationX,destinationY,options={color:'#FF0000',thickness:1}){
       var ctx = document.getElementById('mainframe').getContext('2d')
       ctx.beginPath()
       ctx.moveTo(startX, startY);
       ctx.lineTo(destinationX,destinationY)
       this.style(ctx,options.color,options.color,true)
+      ctx.lineWidth = options.thickness < 8 ? options.thickness : 1
       ctx.stroke()
       return{
         type:'line',
@@ -200,7 +228,8 @@ class SimpleShapes extends View{
         destinationX:destinationX,
         destinationY:destinationY,
         options: {
-          color:options.color
+          color:options.color,
+          thickness: options.thickness
         }
       }
     }
