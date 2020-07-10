@@ -69,6 +69,9 @@ Commands:
     ```audio.changeAudio(source,loop)```: Changes current playing audio  
     ```audio.playbackRate(speed)```: Plays the audio in a specific speed  
     ```audio.playAudioAtTime(time)```: Plays audio at specific time  
+    ```audio.skipAudio()```: Skips the current audio playing  
+    ```audio.videoClip(src)```: Plays video on fullScreen  
+    ```audio.skipVideo()```: Skips the current video playing  
 
 You can listen to specific events.  
 ```bash
@@ -108,7 +111,7 @@ const system = require('xsandra').System
 ```  
 Commands:  
     ```system.move(currentView,shape,dx,dy,[constant])```: Moves a shape to the specified direction. If constant is set true then it will move constantly on that direction  
-    ```system.lockScreen([switch])```: Locks all shapes inside the screen. Works only on contant speed. On constant speed it reverses direction  
+    ```system.lockScreen([switch],[override])```: Locks all shapes inside the screen. Works only on contant speed. On constant speed it reverses direction. If override, you have to implement your own border collision function.  
 
 
 ## Disclaimer

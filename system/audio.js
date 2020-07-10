@@ -51,6 +51,28 @@ class Audio{
         if(document.getElementById('mainAudio') == null) this.raiseError('Please set up an audio before using this method')
         document.getElementById('mainAudio').currentTime = time < 0 ? -time : time
     }
+
+    skipAudio(){
+        document.getElementById('mainAudio').parentNode.removeChild(document.getElementById('mainAudio'))
+    }
+
+    videoClip(src){
+        var videoElement = document.createElement('video')
+        document.body.appendChild(videoElement)
+        document.querySelector('video').setAttribute('id','mainVideo')
+        document.querySelector('video').setAttribute('style',`height: 100vh; min-height: 100%; width:100vw; min-width:100%;`)
+        document.querySelector('video').setAttribute('src',`${path.join(process.cwd(),src)}`)
+        document.querySelector('video').setAttribute('autoplay','true')
+        document.getElementById('mainVideo').addEventListener('loadedmetadata', ()=>{
+            document.getElementById('mainVideo').ontimeupdate = () => {
+                if(document.getElementById('mainVideo').currentTime == document.getElementById('mainVideo').duration) document.getElementById('mainVideo').parentNode.removeChild(document.getElementById('mainVideo'))
+            }
+        })
+    }
+    
+    skipVideo(){
+        document.getElementById('mainVideo').parentNode.removeChild(document.getElementById('mainVideo'))
+    }
 }
 
 module.exports = Audio

@@ -25,7 +25,7 @@ class System{
     attachCollider(shape,colisionSetup){
         this.collisionShapesArray.push(shape)
     }
-    onCollision(shape1,shape2,foo){
+    onCollision(foo){
 
     }
 }

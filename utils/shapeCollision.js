@@ -56,13 +56,38 @@ const linePolygonCollision = (firstLineX,firstLineY,firstLineX2,firstLineY2,poly
 
 module.exports.linePolygonCollision = linePolygonCollision
 
+const dot = (vector1, vector2) => {
+    return (vector1[0] * vector2[0]) + (vector1[1] * vector2[1])
+}
+
+const lineCircleCollision = (firstLine1X, firstLineY1, firstLineX2, firstLineY2, circleX, circleY, circleRadius) => {
+    var ac = [circleX - firstLine1X, circleY - firstLineY1]
+    var ab = [firstLineX2 - firstLine1X, firstLineY2 - firstLineY1]
+    var ab2 = dot(ab, ab)
+    var acab = dot(ac, ab)
+    var t = acab / ab2
+    t = (t < 0) ? 0 : t
+    t = (t > 1) ? 1 : t
+    var h = [(ab[0] * t + firstLine1X) - xc, (ab[1] * t + firstLineY1) - circleY]
+    var h2 = dot(h, h)
+    return h2 <= circleRadius * circleRadius
+}
+
+module.exports.lineCircleCollision = lineCircleCollision
+
+const rectanglePolygonCollision = (rectangleCoordinates,polygonCoordinates) => {
+    for(var i = 0; i<rectangleCoordinates.length;i++){
+        for(var j = 0; j<polygonCoordinates.length;j++ ){
+            if(lineLineCollision(rectangleCoordinates[i][0],rectangleCoordinates[i][1],rectangleCoordinates[i+1>polygonCoordinates.length ? 0 : (i+1)][0],rectangleCoordinates[i+1>polygonCoordinates.length ? 0 : (i+1)],polygonCoordinates[i][0],polygonCoordinates[i][1],polygonCoordinates[i+1>polygonCoordinates.length ? 0 : (i+1)][0],polygonCoordinates[i+1>polygonCoordinates.length ? 0 : (i+1)][1]) == true) return true
+        }
+    }
+}
+
+module.exports.rectangleRectangleCollision = rectanglePolygonCollision
+
 const rectangleEllipseCollision = () => { }
 
-const rectanglePolygonCollision = () => { }
-
 const circleEllipseCollision = () => { }
-
-const lineCircleCollision = () => { }
 
 const circlePolygonCollision = () => { }
 
