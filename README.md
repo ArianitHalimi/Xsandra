@@ -102,6 +102,15 @@ Apart from mouseEvents there are keyboardEvents which have these submethods:
 The windowEvent has only one subcommand:  
     ```event.windowEvent().resize(callback)```: Is fired when window is resized  
 
+Movement is also supported:(Limited supported shapes)
+```bash
+const system = require('xsandra').System
+```  
+Commands:  
+    ```system.move(currentView,shape,dx,dy,[constant])```: Moves a shape to the specified direction. If constant is set true then it will move constantly on that direction  
+    ```system.lockScreen([switch])```: Locks all shapes inside the screen. Works only on contant speed. On constant speed it reverses direction  
+
+
 ## Disclaimer
 This game engine is still under development so many things are either not implemented or have issues. For every feature you find that has an issue please report it at https://github.com/ArianitHalimi/Xsandra/issues  
 Suggestions and ideas are very welcomed and its is a big change of implementation  

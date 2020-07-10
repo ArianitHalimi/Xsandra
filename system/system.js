@@ -1,52 +1,32 @@
-class System{
-    bounddetect = false
-    isGravityApplied = false
-    gravity = 0
-    friction = 0
-    innerBound(){
-        this.bounddetect = true
-    }
-    applyGravity(gravity,friction){
-        this.isGravityApplied = true
-        this.gravity = gravity
-        this.friction = friction
-    }
-    unapplyGravity(){
-        this.isGravityApplied = false
-    }
-    simulate(view,obj,dx,dy){
-        try{
-            if(obj.options.outline && typeof obj.options.outlineSize == 'undefined') obj.options.outlineSize = 1
-            if(obj.options.outline) view.simpleShape().deleteShape((obj.options.x-obj.options.outlineSize),(obj.options.y-obj.options.outlineSize),(obj.height+obj.options.outlineSize+2),(obj.width+obj.options.outlineSize+2))
-        }catch(err){
-            //
-        }
-        view.simpleShape().deleteShape(obj.options.x,obj.options.y,obj.height+1,obj.width+1)
-        
-        if(this.bounddetect){
-            if((obj.options.x + obj.width) > window.innerWidth || obj.options.x<0){
-                dx = (-dx)
-            }
-            if(obj.options.y<0){
-                dy = (-dy)
-            }
-            if((obj.options.y + obj.height) > window.innerHeight){
-                if(this.isGravityApplied) dy = (-dy) * this.friction
-                else dy = (-dy)
-            }else{
-                if(this.isGravityApplied) dy += this.gravity
-            }
-        }
+const basedOnShape = require('../utils/basedOnShape')
+const shapeCollision = require('../utils/shapeCollision')
 
-        obj.options.x += dx;
-        obj.options.y += dy;
-        
-        if(obj.type == 'rectangle'){
-            view.simpleShape().rectangle(obj.height,obj.width,obj.options)
+class System{
+    innerBorders = false
+    overrideFunction
+    collisionShapesArray = []
+    move(view,shape,dx,dy,constant=false){
+        basedOnShape.deleteBasedOnShape(view,shape)
+        basedOnShape.velocityBasedOnShape(shape,dx,dy)
+        if(this.innerBorders) {
+            if(this.overrideFunction) this.overrideFunction()
+            else{
+                dx = basedOnShape.lockScreenBasedOnShape(shape,dx,dy,constant)[0]
+                dy = basedOnShape.lockScreenBasedOnShape(shape,dx,dy,constant)[1]
+            }
         }
-        requestAnimationFrame(()=>{
-            this.simulate(view,obj,dx,dy)
-        }) 
+        basedOnShape.recreateBasedOnShape(view,shape)
+        if(constant) requestAnimationFrame(()=>{ this.move(view,shape,dx,dy,constant) }) 
+    }
+    lockScreen(innerBorders = true,override){
+        this.innerBorders = innerBorders
+        if(override) this.overrideFunction = override
+    }
+    attachCollider(shape,colisionSetup){
+        this.collisionShapesArray.push(shape)
+    }
+    onCollision(shape1,shape2,foo){
+
     }
 }
 
