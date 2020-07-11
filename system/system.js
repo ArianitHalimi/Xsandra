@@ -1,16 +1,24 @@
 const basedOnShape = require('../utils/basedOnShape')
 const shapeCollision = require('../utils/shapeCollision')
+var assert = require('assert');
 
 class System{
     innerBorders = false
     overrideFunction
     onCollisionFunction
     collisionShapesArray = []
+    staticShapePool = []
     move(view,shape,dx,dy,constant=false){
-        basedOnShape.deleteBasedOnShape(view,shape)
+        var ctx = document.getElementById('mainframe').getContext('2d')
+        ctx.clearRect(0,0,window.innerHeight,window.innerWidth)
+        this.staticShapePool.forEach(element=>{
+            basedOnShape.recreateBasedOnShape(view,element)
+        })
         basedOnShape.velocityBasedOnShape(shape,dx,dy)
         var result = this.detectCollision()
-        if(result!==false && typeof this.onCollisionFunction !== 'undefined') this.onCollisionFunction(result[1],result[2])
+        if(result.length !== 0){
+            if(typeof this.onCollisionFunction !== 'undefined') this.onCollisionFunction(result[0][1],result[0][2])
+        } 
         if(this.innerBorders) {
             if(this.overrideFunction) this.overrideFunction()
             else{
@@ -34,11 +42,20 @@ class System{
     }
     detectCollision(){
         if(this.collisionShapesArray){
-            for(var i=0;i<this.collisionShapesArray.length;i++){
-                if(shapeCollision.determineCollision(this.collisionShapesArray[i],this.collisionShapesArray[(i+1) >= this.collisionShapesArray.length ? 0 : i+1])) return [true,this.collisionShapesArray[i],this.collisionShapesArray[(i+1) >= this.collisionShapesArray.length ? 0 : i+1]]
-                return false
-            }
+            var shapesHasCollided = []
+            this.collisionShapesArray.forEach(element=>{
+                for(var i=0;i<this.collisionShapesArray.length;i++){
+                    if(element==this.collisionShapesArray[i]) continue
+                    if(shapeCollision.determineCollision(element,this.collisionShapesArray[i])){
+                        shapesHasCollided.push([true,element,this.collisionShapesArray[i]])
+                    } 
+                }
+            })
+            return shapesHasCollided
         }
+    }
+    static(shape){
+        this.staticShapePool.push(shape)
     }
 }
 

@@ -114,6 +114,7 @@ Commands:
     ```system.lockScreen([switch],[override])```: Locks all shapes inside the screen. Works only on contant speed. On constant speed it reverses direction. If override, you have to implement your own border collision function.  
     ```system.attachCollider(shape)```: Puts the shape into collision pool.  
     ```system.onCollision(callback)```: Executes callback when two shapes on collision pool collide. Callback returns two parameters which are the shapes that collided  
+    ```system.static(shape)```: Staticly puts an object into the sceen. If not set, when move function is called, it will delete unstatic shapes  
 
 
 ## Disclaimer
@@ -121,6 +122,7 @@ This game engine is still under development so many things are either not implem
 Suggestions and ideas are very welcomed and its is a big change of implementation  
 For anything you think you can implement or fix, pull requests are welcomed  
 Many new updates will come until it is finished so stay tuned  
+Always check for new versions of xsandra for new features  
 
 
 ## License

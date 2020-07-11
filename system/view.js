@@ -262,7 +262,7 @@ class SimpleShapes extends View{
       var ctx = document.getElementById('mainFrame').getContext('2d')
       ctx.beginPath()
       ctx.moveTo(startX, startY);
-      for(var i = 0; i<edgeCoordinates.length;i++){
+      for(var i = 0; i<edgeCoordinates.length;i+=2){
         ctx.lineTo(edgeCoordinates[i],edgeCoordinates[(i+1)>=edgeCoordinates.length ? 0 : (i+1)])
       }
       this.style(ctx,options.color,options.outlineColor,options.outline)
