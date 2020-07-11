@@ -66,6 +66,7 @@ class SimpleShapes extends View{
       this.style(ctx,options.color,options.outlineColor,options.outline)
       ctx.fill()
       if(options.outline) ctx.stroke()
+      ctx.closePath()
       return{
         type:'circle',
         x:x,
@@ -221,6 +222,7 @@ class SimpleShapes extends View{
       this.style(ctx,options.color,options.color,true)
       ctx.lineWidth = options.thickness < 8 ? options.thickness : 1
       ctx.stroke()
+      ctx.closePath()
       return{
         type:'line',
         startX:startX,
@@ -253,6 +255,26 @@ class SimpleShapes extends View{
           outline:options.outline,
           outlineColor: options.outlineColor
         }
+      }
+    }
+
+    unRegularPolygon(startX,startY,edgeCoordinates,options = {color:"#FF0000",outline:false,outlineColor:"#FF0000",outlineSize:1}){
+      var ctx = document.getElementById('mainFrame').getContext('2d')
+      ctx.beginPath()
+      ctx.moveTo(startX, startY);
+      for(var i = 0; i<edgeCoordinates.length;i++){
+        ctx.lineTo(edgeCoordinates[i],edgeCoordinates[(i+1)>=edgeCoordinates.length ? 0 : (i+1)])
+      }
+      this.style(ctx,options.color,options.outlineColor,options.outline)
+      ctx.fill()
+      ctx.stroke()
+      ctx.closePath()
+      return{
+        type:'unRegularPolygon',
+        startX:startX,
+        startY:startY,
+        edgeCoordinates: edgeCoordinates,
+        options: options
       }
     }
 

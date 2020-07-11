@@ -65,7 +65,7 @@ class Audio{
         document.querySelector('video').setAttribute('autoplay','true')
         document.getElementById('mainVideo').addEventListener('loadedmetadata', ()=>{
             document.getElementById('mainVideo').ontimeupdate = () => {
-                if(document.getElementById('mainVideo').currentTime == document.getElementById('mainVideo').duration) document.getElementById('mainVideo').parentNode.removeChild(document.getElementById('mainVideo'))
+                if(document.getElementById('mainVideo') && document.getElementById('mainVideo').currentTime == document.getElementById('mainVideo').duration) document.getElementById('mainVideo').parentNode.removeChild(document.getElementById('mainVideo'))
             }
         })
     }

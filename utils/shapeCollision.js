@@ -1,3 +1,12 @@
+const determineCollision = (shape1,shape2) => {
+    if(shape1.type == 'circle' && shape2.type=='circle') return circleCircleCollision(shape1.x,shape1.y,shape1.radius,shape2.x,shape2.y,shape2.radius)
+    if((shape1.type && shape2.type) == 'rectangle') return rectangleRectangleCollision(shape1.options.x,shape2.options.x,shape1.height,shape1.width,shape2.options.x,shape2.options.y,shape2.height,shape2.width)
+    if((shape1.type && shape2.type) == 'line') return lineLineCollision(shape1.startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.startX,shape2.startY,shape2.destinationX,shape2.destinationY)
+    
+}
+
+module.exports.determineCollision = determineCollision
+
 const circleCircleCollision = (circle1X,circle1Y, circle1Radius,circle2X,circle2Y,circle2Radius) => {
     return (circle2X-circle1X)*(circle2X-circle1X) + (circle2Y-circle1Y)*(circle2Y-circle1Y) <= (circle1Radius + circle2Radius)*(circle1Radius + circle2Radius)
 }
@@ -83,7 +92,7 @@ const rectanglePolygonCollision = (rectangleCoordinates,polygonCoordinates) => {
     }
 }
 
-module.exports.rectangleRectangleCollision = rectanglePolygonCollision
+module.exports.rectanglePolygonCollision = rectanglePolygonCollision
 
 const rectangleEllipseCollision = () => { }
 
