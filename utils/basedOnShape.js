@@ -28,6 +28,8 @@ const velocityBasedOnShape = (shape,dx,dy) => {
         shape.y += dy
     }
     if(shape.type=='line') {
+        shape.startX += dx
+        shape.startY += dy
         shape.destinationX += dx
         shape.destinationY += dy
     }

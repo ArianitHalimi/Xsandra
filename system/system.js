@@ -1,6 +1,5 @@
 const basedOnShape = require('../utils/basedOnShape')
 const shapeCollision = require('../utils/shapeCollision')
-var assert = require('assert');
 
 class System{
     innerBorders = false
@@ -8,34 +7,40 @@ class System{
     onCollisionFunction
     collisionShapesArray = []
     staticShapePool = []
-    move(view,shape,dx,dy,constant=false){
+    move(view,shape,velocity = {dx,dy},constant=false){
         var ctx = document.getElementById('mainframe').getContext('2d')
-        ctx.clearRect(0,0,window.innerHeight,window.innerWidth)
+        ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
         this.staticShapePool.forEach(element=>{
             basedOnShape.recreateBasedOnShape(view,element)
         })
-        basedOnShape.velocityBasedOnShape(shape,dx,dy)
+        this.collisionShapesArray.forEach(element=>{
+            basedOnShape.recreateBasedOnShape(view,element)
+        })
+        basedOnShape.velocityBasedOnShape(shape,velocity.dx,velocity.dy)
         var result = this.detectCollision()
         if(result.length !== 0){
-            if(typeof this.onCollisionFunction !== 'undefined') this.onCollisionFunction(result[0][1],result[0][2])
+            if(typeof this.onCollisionFunction !== 'undefined') this.onCollisionFunction(result[0][1],result[0][2],velocity)
         } 
         if(this.innerBorders) {
-            if(this.overrideFunction) this.overrideFunction()
+            if(this.overrideFunction) this.overrideFunction(velocity)
             else{
-                dx = basedOnShape.lockScreenBasedOnShape(shape,dx,dy,constant)[0]
-                dy = basedOnShape.lockScreenBasedOnShape(shape,dx,dy,constant)[1]
+                velocity.dx = basedOnShape.lockScreenBasedOnShape(shape,velocity.dx,velocity.dy,constant)[0]
+                velocity.dy = basedOnShape.lockScreenBasedOnShape(shape,velocity.dx,velocity.dy,constant)[1]
             }
         }
-        basedOnShape.recreateBasedOnShape(view,shape)
 
-        if(constant) requestAnimationFrame(()=>{ this.move(view,shape,dx,dy,constant) }) 
+        if(constant) requestAnimationFrame(()=>{ this.move(view,shape,velocity,constant) }) 
     }
     lockScreen(innerBorders = true,override){
         this.innerBorders = innerBorders
         if(override) this.overrideFunction = override
     }
     attachCollider(shape){
-        this.collisionShapesArray.push(shape)
+        if(Object.prototype.toString.call(shape) === '[object Array]'){
+            for(var i =0 ;i<shape.length;i++){
+                this.collisionShapesArray.push(shape[i])
+            }
+        }else this.collisionShapesArray.push(shape)
     }
     onCollision(foo){
         this.onCollisionFunction = foo
@@ -55,7 +60,11 @@ class System{
         }
     }
     static(shape){
-        this.staticShapePool.push(shape)
+        if(Object.prototype.toString.call(shape) === '[object Array]'){
+            for(var i = 0; i<shape.length;i++){
+                this.staticShapePool.push(shape[i])
+            }
+        }else this.staticShapePool.push(shape)
     }
 }
 

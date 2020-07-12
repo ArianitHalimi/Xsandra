@@ -110,7 +110,7 @@ Movement is also supported:(UNDER CONSTRUCTION: Limited supported shapes)
 const system = require('xsandra').System
 ```  
 Commands:  
-    ```system.move(currentView,shape,dx,dy,[constant])```: Moves a shape to the specified direction. If constant is set true then it will move constantly on that direction  
+    ```system.move(currentView,shape,{dx,dy},[constant])```: Moves a shape to the specified direction. If constant is set true then it will move constantly on that direction  
     ```system.lockScreen([switch],[override])```: Locks all shapes inside the screen. Works only on contant speed. On constant speed it reverses direction. If override, you have to implement your own border collision function.  
     ```system.attachCollider(shape)```: Puts the shape into collision pool.  
     ```system.onCollision(callback)```: Executes callback when two shapes on collision pool collide. Callback returns two parameters which are the shapes that collided  

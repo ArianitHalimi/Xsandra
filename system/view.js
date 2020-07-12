@@ -25,6 +25,10 @@ class View{
       document.getElementById('mainframe').setAttribute('width',window.innerWidth)
       document.getElementById('mainframe').setAttribute('height',window.innerHeight)
     }
+    clearScreen(){
+      var ctx = document.getElementById('mainframe').getContext('2d')
+      ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
+    }
     simpleShape(){
       return new SimpleShapes()
     }

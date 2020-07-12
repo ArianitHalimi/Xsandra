@@ -3,6 +3,7 @@ const determineCollision = (shape1,shape2) => {
     if(shape1.type == 'rectangle' && shape2.type=='rectangle') return rectangleRectangleCollision(shape1.options.x,shape1.options.y,shape1.height,shape1.width,shape2.options.x,shape2.options.y,shape2.height,shape2.width)
     if(shape1.type == 'line' && shape2.type=='line') return lineLineCollision(shape1.startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.startX,shape2.startY,shape2.destinationX,shape2.destinationY)    
     if(shape1.type == 'circle' && shape2.type=='rectangle') return circleRectangleCollision(shape2.options.x,shape2.options.y,shape2.height,shape2.width,shape1.x,shape1.y,shape1.radius)
+    if(shape1.type == 'rectangle' && shape2.type=='circle') return circleRectangleCollision(shape1.options.x,shape1.options.y,shape1.height,shape1.width,shape2.x,shape2.y,shape2.radius)
     if(shape1.type=='line' && shape2.type=='rectangle') return lineRectangleCollision(shape1,startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.options.x,shape2.options.y,shape2.height,shape2.width)
     if(shape1.type=='line' && shape2.type=='circle') return lineCircleCollision(shape1.startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.x,shape2.y,shape2.radius)
 }
@@ -22,16 +23,15 @@ const rectangleRectangleCollision = (rect1X,rect1Y,rect1Height,rect1Width,rect2X
 module.exports.rectangleRectangleCollision = rectangleRectangleCollision
 //done
 const circleRectangleCollision = (rectX,rectY,rectHeight,rectWidth,circleX,circleY,circleRadius) => {
-    var temp1 = rectX
-    var temp2 = rectY
-    if (circleX < rectX) testX = rx
-    else if(circleX > rectX+rectWidth) temp1 = rectX+rectWidth
-    if (circleY < rectY) temp2 = rectY
-    else if (circleY > rectY+rectHeight) temo2 = rectY+rectHeight
-    var distX = circleX-temp1
-    var distY = circleY-temp2
-    var distance = Math.sqrt((distX*distX) + (distY*distY))
-    if(distance <= circleRadius) return true
+    var hw = rectWidth / 2
+    var hh = rectHeight / 2
+    var distX = Math.abs(circleX - (rectX + rectWidth / 2))
+    var distY = Math.abs(circleY - (rectY + rectHeight / 2))
+    if (distX > hw + circleRadius || distY > hh + circleRadius) return false
+    if (distX <= hw || distY <= hh) return true
+    var x = distX - hw
+    var y = distY - hh
+    return x * x + y * y <=circleRadius * circleRadius
 }
 
 module.exports.circleRectangleCollision = circleRectangleCollision
