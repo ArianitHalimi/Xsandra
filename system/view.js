@@ -1,4 +1,6 @@
 const path = require('path')
+const fs = require('fs')
+const Utils = require('../utils/utilsFunctions')
 
 class View{
     write(str,color='#e0e0e0'){
@@ -24,6 +26,10 @@ class View{
       document.querySelector('canvas').setAttribute('id','mainframe')
       document.getElementById('mainframe').setAttribute('width',window.innerWidth)
       document.getElementById('mainframe').setAttribute('height',window.innerHeight)
+    }
+    setBackground(value){
+      if(value.startsWith('rgba') || value.startsWith('#')) document.getElementsByTagName("BODY")[0].style = `background-color: ${value}`
+      if(fs.existsSync(path.join(process.cwd(),value))) document.getElementsByTagName("BODY")[0].style = `background: url(${Utils.stringEscape(path.join(process.cwd(),value))}) no-repeat center center fixed; background-size: cover;`
     }
     clearScreen(){
       var ctx = document.getElementById('mainframe').getContext('2d')

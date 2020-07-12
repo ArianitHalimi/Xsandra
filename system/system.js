@@ -7,7 +7,9 @@ class System{
     onCollisionFunction
     collisionShapesArray = []
     staticShapePool = []
+    stopCurrentFrame = false
     move(view,shape,velocity = {dx,dy},constant=false){
+        if(this.stopCurrentFrame && !constant) return
         var ctx = document.getElementById('mainframe').getContext('2d')
         ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
         this.staticShapePool.forEach(element=>{
@@ -28,7 +30,7 @@ class System{
                 velocity.dy = basedOnShape.lockScreenBasedOnShape(shape,velocity.dx,velocity.dy,constant)[1]
             }
         }
-
+        if(this.stopCurrentFrame) return
         if(constant) requestAnimationFrame(()=>{ this.move(view,shape,velocity,constant) }) 
     }
     lockScreen(innerBorders = true,override){
@@ -65,6 +67,9 @@ class System{
                 this.staticShapePool.push(shape[i])
             }
         }else this.staticShapePool.push(shape)
+    }
+    stopFrame(){
+        this.stopCurrentFrame = true
     }
 }
 

@@ -49,6 +49,8 @@ const view = require('xsandra').View
 ```
 
 Commands:  
+    ```view.initialize()```: Initializes the game  
+    ```view.setBackgound(value)```: Set background color. Value takes a source to an image, or a hex or rgba color.  
     ```view.simpleShape().rectangle(height,width,[...options])```: Creates a rectangle  
     ```view.simpleShape().circle(x,y,radius,[...options])```: Creates a circle  
     ```view.simpleShape().ecllipse(x,y,radiusX,radiusY,[...options])```: Creates an ellipse  
@@ -115,6 +117,7 @@ Commands:
     ```system.attachCollider(shape)```: Puts the shape into collision pool.  
     ```system.onCollision(callback)```: Executes callback when two shapes on collision pool collide. Callback returns two parameters which are the shapes that collided  
     ```system.static(shape)```: Staticly puts an object into the sceen. If not set, when move function is called, it will delete unstatic shapes  
+    ```system.stopFrame()```: When called, it will stop executing the script  
 
 
 ## Disclaimer
