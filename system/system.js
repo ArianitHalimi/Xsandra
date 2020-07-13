@@ -10,8 +10,7 @@ class System{
     stopCurrentFrame = false
     move(view,shape,velocity = {dx,dy},constant=false){
         if(this.stopCurrentFrame && !constant) return
-        var ctx = document.getElementById('mainframe').getContext('2d')
-        ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
+        view.clearScreen()
         this.staticShapePool.forEach(element=>{
             basedOnShape.recreateBasedOnShape(view,element)
         })

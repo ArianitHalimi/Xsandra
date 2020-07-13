@@ -1,10 +1,10 @@
 const determineCollision = (shape1,shape2) => {
     if(shape1.type == 'circle' && shape2.type=='circle') return circleCircleCollision(shape1.x,shape1.y,shape1.radius,shape2.x,shape2.y,shape2.radius)
-    if(shape1.type == 'rectangle' && shape2.type=='rectangle') return rectangleRectangleCollision(shape1.options.x,shape1.options.y,shape1.height,shape1.width,shape2.options.x,shape2.options.y,shape2.height,shape2.width)
+    if(shape1.type == 'rectangle' && shape2.type=='rectangle') return rectangleRectangleCollision(shape1.x,shape1.y,shape1.height,shape1.width,shape2.x,shape2.y,shape2.height,shape2.width)
     if(shape1.type == 'line' && shape2.type=='line') return lineLineCollision(shape1.startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.startX,shape2.startY,shape2.destinationX,shape2.destinationY)    
-    if(shape1.type == 'circle' && shape2.type=='rectangle') return circleRectangleCollision(shape2.options.x,shape2.options.y,shape2.height,shape2.width,shape1.x,shape1.y,shape1.radius)
-    if(shape1.type == 'rectangle' && shape2.type=='circle') return circleRectangleCollision(shape1.options.x,shape1.options.y,shape1.height,shape1.width,shape2.x,shape2.y,shape2.radius)
-    if(shape1.type=='line' && shape2.type=='rectangle') return lineRectangleCollision(shape1,startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.options.x,shape2.options.y,shape2.height,shape2.width)
+    if(shape1.type == 'circle' && shape2.type=='rectangle') return circleRectangleCollision(shape2.x,shape2.y,shape2.height,shape2.width,shape1.x,shape1.y,shape1.radius)
+    if(shape1.type == 'rectangle' && shape2.type=='circle') return circleRectangleCollision(shape1.x,shape1.y,shape1.height,shape1.width,shape2.x,shape2.y,shape2.radius)
+    if(shape1.type=='line' && shape2.type=='rectangle') return lineRectangleCollision(shape1,startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.x,shape2.y,shape2.height,shape2.width)
     if(shape1.type=='line' && shape2.type=='circle') return lineCircleCollision(shape1.startX,shape1.startY,shape1.destinationX,shape1.destinationY,shape2.x,shape2.y,shape2.radius)
 }
 

@@ -13,116 +13,115 @@ class Event{
 }
 
 class MouseEvent{
-    hasOccurred(shape,e,foo){
-        if(shape=='screen') foo(e)
-        if((shape.type=='rectangle' || shape.type == 'image') && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.height,shape.width)) foo(e)
-        if(shape.type=='circle' && pointCollision.pointCircleCollision(e.clientX,e.clientY,shape.x, shape.y, shape.radius)) foo(e)
-        if(shape.type=='triangle' && pointCollision.pointPolygonCollision(e.clientX,e.clientY,[[shape.startX,shape.startY],[shape.firstPX,shape.firstPY],[shape.secondPX,shape.secondPY]])) foo(e)
-        if(shape.type=='text' && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.options.x,shape.options.y,shape.options.height,shape.options.width)) foo(e)
-        if(shape.type=='line' && pointCollision.pointLineCollision(e.clientX,e.clientY, shape.startX, shape.startY, shape.destinationX, shape.destinationY)) foo(e)
-        if(shape.type=='ellipse' && pointCollision.pointEllipseCollision(e.clientX,e.clientY,shape.x,shape.y,shape.radiusX,shape.radiusY)) foo(e)
+    hasOccurred(shape,e,callback){
+        if(shape=='screen') callback(e)
+        if((shape.type=='rectangle' || shape.type == 'image' || shape.type=='text') && pointCollision.pointRectangleCollision(e.clientX,e.clientY,shape.x,shape.y,shape.height,shape.width)) callback(e)
+        if(shape.type=='circle' && pointCollision.pointCircleCollision(e.clientX,e.clientY,shape.x, shape.y, shape.radius)) callback(e)
+        if(shape.type=='triangle' && pointCollision.pointPolygonCollision(e.clientX,e.clientY,[[shape.startX,shape.startY],[shape.firstPX,shape.firstPY],[shape.secondPX,shape.secondPY]])) callback(e)
+        if(shape.type=='line' && pointCollision.pointLineCollision(e.clientX,e.clientY, shape.startX, shape.startY, shape.destinationX, shape.destinationY)) callback(e)
+        if(shape.type=='ellipse' && pointCollision.pointEllipseCollision(e.clientX,e.clientY,shape.x,shape.y,shape.radiusX,shape.radiusY)) callback(e)
     }
-    on(event,shape,foo){
-        this[event](shape,foo)
+    on(event,shape,callback){
+        this[event](shape,callback)
     }
-    click(shape,foo){
+    click(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('click',(e)=>{
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
         })
     }
-    wheel(shape,foo){
+    wheel(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('onwheel',(e)=>{
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
         })
     }
-    hold(shape,foo){
+    hold(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mousedown',(e)=>{
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
         })
     }
-    release(shape,foo){
+    release(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mouseup',(e)=>{
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
         })
     }
-    rightClick(shape,foo){
+    rightClick(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('contextmenu',(e)=>{
             e.preventDefault();
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
             return false
         },false)
     }
-    wheelClick(shape,foo){
+    wheelClick(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('click',(e)=>{
             if (e && (e.which == 2 || e.button == 4 )) {
-                this.hasOccurred(shape,e,foo)
+                this.hasOccurred(shape,e,callback)
             }
         })
     }
-    mouseIn(shape,foo){
+    mouseIn(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mouseover',(e)=>{
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
         })
     }
-    mouseOut(shape,foo){
+    mouseOut(shape,callback){
         var ctx = document.getElementById('mainframe')
         ctx.addEventListener('mouseout',(e)=>{
-            this.hasOccurred(shape,e,foo)
+            this.hasOccurred(shape,e,callback)
         })
     }
 }
 
 class KeyboardEvent{
-    keyPress(foo){
+    keyPress(callback){
         window.addEventListener('keydown',(e)=>{
             var event = {Key:e.key,keyCode:e.keyCode,repeat:e.repeat,timeStamp:e.timeStamp,ctrlKey:e.ctrlKey,shiftKey:e.shiftKey}
-            foo(event)
+            callback(event)
         })
     }
-    keyRelease(foo){
+    keyRelease(callback){
         window.addEventListener('keyup',(e)=>{
             var event = {Key:e.key,keyCode:e.keyCode,repeat:e.repeat,timeStamp:e.timeStamp,ctrlKey:e.ctrlKey,shiftKey:e.shiftKey}
-            foo(event)
+            callback(event)
         })
     }
-    ctrl(foo){
+    ctrl(callback){
         window.addEventListener('keydown',(e)=>{
             var event = {repeat:e.repeat,timeStamp:e.timeStamp}
-            if(e.keyCode==17) foo(event)
+            if(e.keyCode==17) callback(event)
         })
     }
-    shift(foo){
+    shift(callback){
         window.addEventListener('keydown',(e)=>{
             var event = {repeat:e.repeat,timeStamp:e.timeStamp}
-            if(e.keyCode==16) foo(event)
+            if(e.keyCode==16) callback(event)
         })
     }
-    alt(foo){
+    alt(callback){
         window.addEventListener('keydown',(e)=>{
             var event = {repeat:e.repeat,timeStamp:e.timeStamp}
-            if(e.keyCode==18) foo(event)
+            if(e.keyCode==18) callback(event)
         })
     }
-    enter(foo){
+    enter(callback){
         window.addEventListener('keydown',(e)=>{
             var event = {repeat:e.repeat,timeStamp:e.timeStamp}
-            if(e.keyCode==13) foo(event)
+            if(e.keyCode==13) callback(event)
         })
     }
 }
 
 class WindowEvent{
-    onResize(foo){
+    onResize(callback){
         window.addEventListener('resize', function(e){
-            foo(e)
-        });
+            callback(e)
+        })
     }
 }
 

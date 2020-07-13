@@ -18,13 +18,13 @@ class Audio{
         if(document.getElementById('mainAudio') !== null) this.changeAudio(src,loop)
         else{
             var audioElement = document.createElement('audio')
-            document.body.appendChild(audioElement);
+            document.body.appendChild(audioElement)
             document.querySelector('audio').setAttribute('id','mainAudio')
             document.querySelector('audio').setAttribute('style','display: none')
             document.querySelector('audio').setAttribute('src',`${path.join(process.cwd(),src)}`)
             document.querySelector('audio').setAttribute('autoplay','true')
             if(loop) document.querySelector('audio').setAttribute('loop','true')
-            document.getElementById("mainAudio").autoplay;
+            document.getElementById("mainAudio").autoplay
         }
     }
 

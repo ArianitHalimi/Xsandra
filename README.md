@@ -51,15 +51,15 @@ const view = require('xsandra').View
 Commands:  
     ```view.initialize()```: Initializes the game  
     ```view.setBackgound(value)```: Set background color. Value takes a source to an image, or a hex or rgba color.  
-    ```view.simpleShape().rectangle(height,width,[...options])```: Creates a rectangle  
-    ```view.simpleShape().circle(x,y,radius,[...options])```: Creates a circle  
-    ```view.simpleShape().ecllipse(x,y,radiusX,radiusY,[...options])```: Creates an ellipse  
-    ```view.simpleShape().triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,[...options])```: Creates a triangle  
-    ```view.simpleShape().regularPolygon(x,y,radius,sides,[...options])```: Creates a regular polygon with specific sides
-    ```view.simpleShape().imageAsShape(imgsrc,[...options])```: Creates an image  
-    ```view.simpleShape().text(message,[...options])```: Displays text  
-    ```view.simpleShape().line(startX,startY,destinationX,destinationY,[...options])```: Creates a line between those two points  
-    ```view.simpleShape().curve(x,y,radius,[...options])```: Creates a curve 
+    ```view.simpleShape().rectangle(height,width,x,y,color,outline,outlineColor,outlineSize)```: Creates a rectangle  
+    ```view.simpleShape().circle(x,y,radius,color,outline,outlineColor)```: Creates a circle  
+    ```view.simpleShape().ellipse(x,y,radiusX,radiusY,color,outline,outlineColor)```: Creates an ellipse  
+    ```view.simpleShape().triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,color,outline,outlineColor)```: Creates a triangle  
+    ```view.simpleShape().imageAsShape(src,x,y,height,width)```: Creates an image  
+    ```view.simpleShape().text(message,x,y,fontSize,italic,bold,fontFamily,fontColor)```: Displays text  
+    ```view.simpleShape().line(startX,startY,destinationX,destinationY,color,thickness)```: Creates a line between those two points  
+    ```view.complexShape().curve(x,y,radius,startAngle,endAngle,antiClockWise,color,outline,outlineColor)```: Creates a curve  
+    ```view.complexShape().regularPolygon(centerX,centerY,radius,sides,color)```: Creates a regular polygon with specific sides  
 
 Apart from shapes you can play audio
 ```bash
