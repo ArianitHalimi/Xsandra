@@ -9,6 +9,8 @@ class System{
     staticShapePool = []
     stopCurrentFrame = false
     move(view,shape,velocity = {dx,dy},constant=false){
+        shape.velocity.dx = velocity.dx
+        shape.velocity.dy = velocity.dy
         if(this.stopCurrentFrame && !constant) return
         view.clearScreen()
         this.staticShapePool.forEach(element=>{
@@ -69,6 +71,14 @@ class System{
     }
     stopFrame(){
         this.stopCurrentFrame = true
+    }
+    outsideCameraFocus(shape){
+        //when shape goes out of camera reach
+        //to be implemented
+    }
+    removeShape(){
+        //delete a shape
+        //to be implemented
     }
 }
 

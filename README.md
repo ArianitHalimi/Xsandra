@@ -1,6 +1,9 @@
 # Xsandra
 Javascript Game Engine
 
+## Release Notes 0.2.0
+Work in progress: Transformations for Xsandra where you can set rotations, translations etc. Also new feature will be released in the next patch - Groups
+
 ## Installation
 To install Xsandra Game Engine, use npm.
 Open terminal and write
@@ -55,9 +58,9 @@ Commands:
     ```view.simpleShape().circle(x,y,radius,color,outline,outlineColor)```: Creates a circle  
     ```view.simpleShape().ellipse(x,y,radiusX,radiusY,color,outline,outlineColor)```: Creates an ellipse  
     ```view.simpleShape().triangle(startX,startY,firstPX,firstPY,secondPX,secondPY,color,outline,outlineColor)```: Creates a triangle  
-    ```view.simpleShape().imageAsShape(src,x,y,height,width)```: Creates an image  
+    ```view.simpleShape().loadAsset(src,x,y,height,width)```: Creates an image  
     ```view.simpleShape().text(message,x,y,fontSize,italic,bold,fontFamily,fontColor)```: Displays text  
-    ```view.simpleShape().line(startX,startY,destinationX,destinationY,color,thickness)```: Creates a line between those two points  
+    ```view.simpleShape().line(startX,startY,destinationX,destinationY,color,thickness,lineStyle)```: Creates a line between those two points  
     ```view.complexShape().curve(x,y,radius,startAngle,endAngle,antiClockWise,color,outline,outlineColor)```: Creates a curve  
     ```view.complexShape().regularPolygon(centerX,centerY,radius,sides,color)```: Creates a regular polygon with specific sides  
 
@@ -118,6 +121,13 @@ Commands:
     ```system.onCollision(callback)```: Executes callback when two shapes on collision pool collide. Callback returns two parameters which are the shapes that collided  
     ```system.static(shape)```: Staticly puts an object into the sceen. If not set, when move function is called, it will delete unstatic shapes  
     ```system.stopFrame()```: When called, it will stop executing the script  
+
+Transformations are available too
+```bash
+const transform = require('xsandra').Transform
+```
+Commands:  
+    ```transform.translate(shape,horizontalDirection,verticalDirection)```: Translates the shape by its horizontalDirection value and verticalDirection value  
 
 
 ## Disclaimer
