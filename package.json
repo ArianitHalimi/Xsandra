@@ -1,6 +1,6 @@
 {
   "name": "xsandra",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Javascript Game Engine",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/ArianitHalimi/Xsandra#readme",
   "dependencies": {
-    "electron": "^9.0.5"
+    "electron": "^10.1.3"
   }
 }

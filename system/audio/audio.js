@@ -1,16 +1,19 @@
 const path = require('path')
 const fs = require('fs')
 
+
 class Audio{
     raiseError(errorMessage){
-        console.log(errorMessage);
+        const Debug = require('../../index').Debug
+        Debug.openDebugWindow()
+        Debug.log(errorMessage)
     }
     isSupportedPath(src){
-        if(!fs.existsSync(path.join(process.cwd(),src))) this.raiseError('Invalid path')
+        if(!fs.existsSync(path.join(process.cwd(),src))) this.raiseError("Couldn't locate the file on the given path: " + src)
     }
     isSupported(src){
         var extension = src.split('.')
-        if(extension[extension.length-1] !== ( 'mp3' || 'ogg' || 'wav')) this.raiseError('Unsupported format type')
+        if(extension[extension.length-1] !== ( 'mp3' || 'ogg' || 'wav')) this.raiseError("Couldn't load the audio due to unsupported format!")
     }
     play(src,loop=false){
         this.isSupportedPath(src)
@@ -40,11 +43,6 @@ class Audio{
 
     playbackRate(number){
         document.getElementsByTagName('audio')[0].playbackRate = number > 0 ? number : -number
-    }
-
-    playOnReverse(){
-        if(document.getElementById('mainAudio') == null) this.raiseError('Please set up an audio before using this method')
-        //document.querySelector('audio').setAttribute('playbackRate','-1')
     }
 
     playAudioAtTime(time){

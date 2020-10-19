@@ -1,13 +1,11 @@
 const {app, BrowserWindow,Menu} = require('electron')
-const View = require('./system/view')
 const Script = require('./system/script')
-const System = require('./system/system')
-const Event = require('./system/event')
-const Audio = require('./system/audio')
-const Transform = require('./system/transform')
-const Utils = require('./utils/utilsFunctions')
-
-
+const Audio = require('./system/audio/audio')
+const Debug = require('./system/debug/debugWindow')
+const View = require('./system/renderer/renderer')
+const System = require('./system/system/system')
+const Event = require('./system/events/event')
+const Controls = require('./system/controlls/controls')
 const path = require('path')
 
 class Xsandra{
@@ -45,7 +43,7 @@ class Xsandra{
   run(){
     app.whenReady().then(() => {
       this.createWindow()
-      Menu.setApplicationMenu(null)
+      //Menu.setApplicationMenu(null)
 
       app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -60,9 +58,9 @@ class Xsandra{
 
 module.exports.Engine = new Xsandra()
 module.exports.Script = new Script()
+module.exports.Audio =  new Audio()
+module.exports.Debug = new Debug()
 module.exports.View = module.exports.Renderer = new View()
 module.exports.System = new System()
 module.exports.Event = new Event()
-module.exports.Audio = new Audio()
-module.exports.Transform = new Transform()
-module.exports.Utils = Utils 
+module.exports.Controls = new Controls
