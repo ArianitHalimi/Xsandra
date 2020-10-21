@@ -4,8 +4,8 @@ const AnimationFrame = require('../../animations/animationFrame')
 
 class Rectangle{
     ID
-    ctx
-    animationFrame
+    #ctx
+    #animationFrame
     type = 'rectangle'
     subtype = 'polygon'
     height = 200
@@ -23,9 +23,10 @@ class Rectangle{
     rotationAmount = 0
     visibilityToggle = false
     fadeToggle = false
+    #render = true
 
     constructor(height,width,x,y){
-        this.ctx = document.getElementById('mainframe').getContext('2d')
+        this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
         this.ID = calculate.generateRandomId()
         if(height) this.height = height
         if(width) this.width = width
@@ -34,9 +35,9 @@ class Rectangle{
         this.centerX = this.x + this.width/2
         this.centerY = this.y + this.height/2
         this.coordinates = {x1:this.x,y1:this.y,x2:this.x+this.width,y2:this.y,x3:this.x+this.width,y3:this.y+this.height,x4:this.x,y4:this.y+this.height}
-        this.animationFrame = new AnimationFrame()
-        this.animationFrame.eventFunctions.push(()=> this.display())
-        this.animationFrame.initialize()
+        this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventFunctions.push(()=> this.display())
+        this.#animationFrame.initialize()
         return this
     }
 
@@ -48,19 +49,21 @@ class Rectangle{
     }
 
     display(){
+        if(!this.#render) return this
         if(this.visibilityToggle) return this
-        this.ctx.save()
-        this.ctx.beginPath()
-        this.ctx.fillStyle = this.color
-        if(this.outline) this.ctx.strokeStyle = this.outlineColor
-        this.ctx.moveTo(this.coordinates['x1'],this.coordinates['y1'])
+        this.#ctx.save()
+        this.#ctx.beginPath()
+        this.#ctx.fillStyle = this.color
+        if(this.outline) this.#ctx.strokeStyle = this.outlineColor
+        this.#ctx.moveTo(this.coordinates['x1'],this.coordinates['y1'])
         for(var i=2;i<=4;i++){
-            this.ctx.lineTo(this.coordinates[`x${i}`],this.coordinates[`y${i}`])
-            if(this.outline) this.ctx.stroke()
+            this.#ctx.lineTo(this.coordinates[`x${i}`],this.coordinates[`y${i}`])
+            if(this.outline) this.#ctx.stroke()
         }
-        this.ctx.lineTo(this.coordinates['x1'],this.coordinates['y1'])
-        this.ctx.fill()
-        this.ctx.restore()
+        this.#ctx.lineTo(this.coordinates['x1'],this.coordinates['y1'])
+        this.#ctx.fill()
+        if(this.outline) this.#ctx.stroke()
+        this.#ctx.restore()
         return this
     }
 
@@ -95,6 +98,14 @@ class Rectangle{
 
     fade(fadeFunction,duration){
         Fade[fadeFunction](this,duration)
+    }
+
+    disableRender(){
+        this.#render = false
+    }
+
+    enableRender(){
+        this.#render = true
     }
 }
 

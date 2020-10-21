@@ -4,8 +4,8 @@ const AnimationFrame = require('../../animations/animationFrame')
 
 class Triangle{
     ID
-    ctx
-    animationFrame
+    #ctx
+    #animationFrame
     type = "triangle"
     subtype = "polygon"
     centerX
@@ -18,9 +18,10 @@ class Triangle{
     rotationAngle = 0 
     visibilityToggle = false
     fadeToggle = false
+    #render = true
 
     constructor(...coordinates){
-        this.ctx = document.getElementById('mainframe').getContext('2d')
+        this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
         this.ID = calculate.generateRandomId()
         var j = 0
         for(var i = 0; i<6;i+=2){
@@ -30,9 +31,9 @@ class Triangle{
         }
         this.centerX = (this.coordinates.x1 + this.coordinates.x2 + this.coordinates.x3) / 3
         this.centerY = (this.coordinates.y1 + this.coordinates.y2 + this.coordinates.y3) / 3
-        this.animationFrame = new AnimationFrame()
-        this.animationFrame.eventFunctions.push(()=> this.display())
-        this.animationFrame.initialize()
+        this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventFunctions.push(()=> this.display())
+        this.#animationFrame.initialize()
         return this
     }
 
@@ -44,18 +45,19 @@ class Triangle{
     }
 
     display(){
+        if(this.#render) return this
         if(this.visibilityToggle) return this
-        this.ctx.save()
-        this.ctx.beginPath()
-        this.ctx.fillStyle = this.color
-        if(this.outline) this.ctx.strokeStyle = this.outlineColor
-        this.ctx.moveTo(this.coordinates['x1'],this.coordinates['y1'])
+        this.#ctx.save()
+        this.#ctx.beginPath()
+        this.#ctx.fillStyle = this.color
+        if(this.outline) this.#ctx.strokeStyle = this.outlineColor
+        this.#ctx.moveTo(this.coordinates['x1'],this.coordinates['y1'])
         for(var i=2;i<=3;i++){
-            this.ctx.lineTo(this.coordinates[`x${i}`],this.coordinates[`y${i}`])
+            this.#ctx.lineTo(this.coordinates[`x${i}`],this.coordinates[`y${i}`])
         }
-        this.ctx.lineTo(this.coordinates['x1'],this.coordinates['y1'])
-        this.ctx.fill()
-        this.ctx.restore()
+        this.#ctx.lineTo(this.coordinates['x1'],this.coordinates['y1'])
+        this.#ctx.fill()
+        this.#ctx.restore()
         return this
     }
 
@@ -87,6 +89,14 @@ class Triangle{
 
     fade(fadeFunction,duration){
         Fade[fadeFunction](this,duration)
+    }
+
+    disableRender(){
+        this.#render = false
+    }
+
+    enableRender(){
+        this.#render = true
     }
 }
 

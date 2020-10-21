@@ -24,7 +24,7 @@ class Xsandra{
         preload: path.join(__dirname,'/scripts/script.js')
       }
     })
-    
+
     if(this.fullscreen){
       mainWindow.setFullScreen(true)
     }
@@ -34,16 +34,16 @@ class Xsandra{
   toggleFullscreen(){
     this.fullscreen = true
   }
-  
+
   setWindowSize(width,height){
     this.width = width
     this.height = height
   }
-  
+
   run(){
     app.whenReady().then(() => {
       this.createWindow()
-      //Menu.setApplicationMenu(null)
+      Menu.setApplicationMenu(null)
 
       app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()

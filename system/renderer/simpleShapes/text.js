@@ -4,8 +4,8 @@ const AnimationFrame = require('../../animations/animationFrame')
 
 class Text{
     ID
-    ctx
-    animationFrame
+    #ctx
+    #animationFrame
     type = "text"
     subtype="polygon"
     color = '#FF0000'
@@ -25,21 +25,22 @@ class Text{
     rotationAngle = 0
     visibilityToggle = false
     fadeToggle = false
+    #render = true
 
     constructor(message,x,y){
-        this.ctx = document.getElementById('mainframe').getContext('2d')
+        this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
         this.ID = calculate.generateRandomId()
         if(message) this.message = message
         if(x) this.x = x
         if(y) this.y = y
-        this.width = this.ctx.measureText(message).width
-        this.height = this.ctx.measureText('M').width
+        this.width = this.#ctx.measureText(message).width
+        this.height = this.#ctx.measureText('M').width
         this.centerX = this.x + this.width/2
         this.centerY = this.x + this.height/2
         this.coordinates = {x1:this.x,y1:this.y,x2:this.x+this.width,y2:this.y,x3:this.x+this.width,y3:this.y+this.height,x4:this.x,y4:this.y+this.height}
-        this.animationFrame = new AnimationFrame()
-        this.animationFrame.eventFunctions.push(()=> this.display())
-        this.animationFrame.initialize()
+        this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventFunctions.push(()=> this.display())
+        this.#animationFrame.initialize()
         return this
     }
 
@@ -53,17 +54,18 @@ class Text{
     }
 
     display(){
+        if(!this.#render) return this
         if(this.visibilityToggle) return this
-        this.ctx.save()
+        this.#ctx.save()
         var italicTmp = '', boldTmp = ''
         if(this.italic) italicTmp = 'italic '
         if(this.bold) boldTmp = 'bold '
-        this.ctx.fillStyle = this.color
-        this.ctx.textAlign = 'left';
-        this.ctx.textBaseline = 'top'
-        this.ctx.font = `${italicTmp}${boldTmp}${this.fontSize} ${this.fontFamily}`
-        this.ctx.fillText(this.message, this.x, this.y)
-        this.ctx.restore()
+        this.#ctx.fillStyle = this.color
+        this.#ctx.textAlign = 'left';
+        this.#ctx.textBaseline = 'top'
+        this.#ctx.font = `${italicTmp}${boldTmp}${this.fontSize} ${this.fontFamily}`
+        this.#ctx.fillText(this.message, this.x, this.y)
+        this.#ctx.restore()
         return this
     }
 
@@ -88,6 +90,14 @@ class Text{
 
     fade(fadeFunction,duration){
         Fade[fadeFunction](this,duration)
+    }
+
+    disableRender(){
+        this.#render = false
+    }
+
+    enableRender(){
+        this.#render = true
     }
 }
 

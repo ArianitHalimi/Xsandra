@@ -4,8 +4,8 @@ const AnimationFrame = require('../../animations/animationFrame')
 
 class Line{
     ID
-    ctx
-    animationFrame
+    #ctx
+    #animationFrame
     type = "line"
     subtype = 'polygon'
     coordinates = {x1:0,y1:0,x2:100,y2:100}
@@ -18,9 +18,10 @@ class Line{
     rotationAmount = 0
     visibilityToggle = false
     fadeToggle = false
+    #render = true
 
     constructor(x1,y1,x2,y2){
-        this.ctx = document.getElementById('mainframe').getContext('2d')
+        this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
         this.ID = calculate.generateRandomId()
         if(x1) this.coordinates.x1 = x1
         if(y1) this.coordinates.y1 = y1
@@ -28,9 +29,9 @@ class Line{
         if(y2) this.coordinates.y2 = y2
         this.centerX = (this.coordinates.x1 + this.coordinates.x2) / 2
         this.centerY = (this.coordinates.y1 + this.coordinates.y2) / 2
-        this.animationFrame = new AnimationFrame()
-        this.animationFrame.eventFunctions.push(()=> this.display())
-        this.animationFrame.initialize()
+        this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventFunctions.push(()=> this.display())
+        this.#animationFrame.initialize()
         return this
     }
 
@@ -41,15 +42,16 @@ class Line{
     }
 
     display(){
+        if(!this.#render) return this
         if(this.visibilityToggle) return this
-        this.ctx.save()
-        this.ctx.beginPath()
-        this.ctx.strokeStyle = this.color
-        this.ctx.moveTo(this.coordinates.x1,this.coordinates.y1)
-        this.ctx.lineTo(this.coordinates.x2,this.coordinates.y2)
-        this.ctx.lineWidth = this.thickness < 3 ? this.thickness : 1
-        this.ctx.stroke()
-        this.ctx.restore()
+        this.#ctx.save()
+        this.#ctx.beginPath()
+        this.#ctx.strokeStyle = this.color
+        this.#ctx.moveTo(this.coordinates.x1,this.coordinates.y1)
+        this.#ctx.lineTo(this.coordinates.x2,this.coordinates.y2)
+        this.#ctx.lineWidth = this.thickness < 3 ? this.thickness : 1
+        this.#ctx.stroke()
+        this.#ctx.restore()
         return this
     }
 
@@ -69,7 +71,7 @@ class Line{
 
     visibility(visibilityFunction){
         return  Visibility[visibilityFunction](this)
-    }
+    } 
 
     move(moveFuntion, speed){
         if(Array.isArray(speed) && moveFuntion == 'multiple' && speed.length == 2){
@@ -81,6 +83,14 @@ class Line{
 
     fade(fadeFunction,duration){
         Fade[fadeFunction](this,duration)
+    }
+
+    disableRender(){
+        this.#render = false
+    }
+
+    enableRender(){
+        this.#render = true
     }
 }
 

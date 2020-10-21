@@ -33,13 +33,11 @@ const calculateRGBAValue = (hex) => {
         }
         c= '0x'+c.join('');
         return [(c>>16)&255,(c>>8)&255, c&255,1]
-        //return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',1)';
     }
     throw new Error('Bad Hex');
 }
 
 const reorderRGBAValue = (rgbaString) => {
-    //console.log(rgbaString.match(/[\.\d]+/g))
     return rgbaString.match(/[\.\d]+/g);
 }
 
@@ -56,6 +54,22 @@ size = function(obj) {
 const getDistance = (x1,y1,x2,y2) => {
     return Math.hypot(x2-x1, y2-y1)
 }
+
+const updateShapes = (shapesArray,moveX,moveY) => {
+    shapesArray.forEach(el=>{
+        if(el.subtype=='elipse'){
+            el.centerX -= moveX
+            el.centerY -= moveY
+        }else{
+            for(var i=1;i<=size(el.coordinates)/2;i++){
+                el.coordinates[`x${i}`] -= moveX
+                el.coordinates[`y${i}`] -= moveY
+            }
+        }
+    })
+}
+
+module.exports.updateShapes = updateShapes
 
 const generateRandomId = () => {
     let s4 = () => {

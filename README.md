@@ -1,12 +1,10 @@
 # Xsandra
 Javascript Game Engine
 
-## Release Notes 1.0.0
-Stable release - can support simple shapes with functionality and animations(included rectangle,circle,line,text,triangle).  
-Audio system to play and modify with supported mp3 and also video support with mp4.  
-Controls for automated movement with arrows or wasd.  
-New Feature:Debugger, for easy development.  
-Lot of bugs fixed and new structure for lightweighted performance.  
+## Release Notes 1.1.0
+Stable release - Can set camera and frame for multi movement across the frame.  
+Optimising the rendering spectrum, faster execution
+Lot of bugs fixed
 New features will be added in short time so stay turned.  
 
 ## Installation
@@ -71,6 +69,9 @@ cont renderer = require('xsandra').Renderer
 Renderer has those listed commands bellow  
 Commands:   
     ```view.screenSize()```: Returns an array containing the width and height respectivly.  
+    ```view.setFrame(frameX,frameY)```: Sets the maximum frame camera could reach.  
+    ```view.setCamera(cameraX,cameraY)```: Sets camera with particular range.  
+    ```view.moveCamera(moveX,moveY)```: Moves the camera across the frame with certain speed. MoveX will move in the X direction and moveY will move in the Y direction.  
     ```view.setBackgound(value)```: Set background color. Value takes a source to an image, a hex or rgba color.  
     ```view.rectangle(height,width,x,y)```: Creates a rectangle with the given properties.   
     ```view.circle(centerX,centerY,radius)```: Creates a circle with the given properties.  

@@ -1,4 +1,7 @@
+const pointEllipseCollision = require('../mouseCollision/pointEllipseCollision')
+
 const lineEllipseCollision = (lineX1,lineY1,lineX2,lineY2,shape,radius1,radius2) => {
+    if(pointEllipseCollision(lineX1,lineY1,shape,radius1,radius2)) return true
     lineX1 -= shape.centerX
     lineX2 -= shape.centerX
     lineY1 -= shape.centerY
@@ -20,7 +23,7 @@ const lineEllipseCollision = (lineX1,lineY1,lineX2,lineY2,shape,radius1,radius2)
     return false
 }
 
-module.exports = (polygon,ellipse,ellipseRadius1,ellipseRadius2) => {
+module.exports = (polygon,ellipse,ellipseRadius1,ellipseRadius2,shape) => {
     for(var i=1;i<size(polygon.coordinates)/2;i++){
         return lineEllipseCollision(polygon.coordinates[`x${i}`],
         polygon.coordinates[`y${i}`],

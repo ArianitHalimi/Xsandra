@@ -3,8 +3,9 @@ const AnimationFrame = require('../../animations/animationFrame')
 const calculate = require('../../utils/calculate')
 
 class Circle{
-    ctx
     ID
+    #ctx
+    #animationFrame
     type = 'circle'
     subtype = 'elipse'
     centerX = 50
@@ -15,16 +16,17 @@ class Circle{
     outlineColor = '#FF0000'
     visibilityToggle = false
     fadeToggle = false
+    #render = true
 
     constructor(centerX,centerY,radius){
-        this.ctx = document.getElementById('mainframe').getContext('2d')
+        this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
         this.ID = calculate.generateRandomId()
         if(centerX) this.centerX = centerX
         if(centerY) this.centerY = centerY
         if(radius) this.radius = radius
-        this.animationFrame = new AnimationFrame()
-        this.animationFrame.eventFunctions.push(()=> this.display())
-        this.animationFrame.initialize()
+        this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventFunctions.push(()=> this.display())
+        this.#animationFrame.initialize()
         return this
     }
 
@@ -36,15 +38,16 @@ class Circle{
     }
 
     display(){
+        if(!this.#render) return this
         if(this.visibilityToggle) return this
-        this.ctx.save()
-        this.ctx.beginPath()
-        this.ctx.fillStyle = this.color
-        if(this.outline) this.ctx.strokeStyle = this.outlineColor
-        this.ctx.arc(this.centerX, this.centerY, this.radius, 0, Math.PI*2,true)
-        this.ctx.fill()
-        if(this.outline) this.ctx.stroke()
-        this.ctx.restore()
+        this.#ctx.save()
+        this.#ctx.beginPath()
+        this.#ctx.fillStyle = this.color
+        if(this.outline) this.#ctx.strokeStyle = this.outlineColor
+        this.#ctx.arc(this.centerX, this.centerY, this.radius, 0, Math.PI*2,true)
+        this.#ctx.fill()
+        if(this.outline) this.#ctx.stroke()
+        this.#ctx.restore()
         return this
     }
 
@@ -68,6 +71,14 @@ class Circle{
 
     fade(fadeFunction,duration){
         Fade[fadeFunction](this,duration)
+    }
+
+    disableRender(){
+        this.#render = false
+    }
+
+    enableRender(){
+        this.#render = true
     }
 }
 

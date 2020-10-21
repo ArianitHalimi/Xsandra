@@ -1,3 +1,5 @@
+const calculate = require('../../utils/calculate')
+
 class Movement{
     moveRight(shape,speed){
         shape.translate(speed,0)
