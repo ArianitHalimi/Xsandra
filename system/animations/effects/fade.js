@@ -1,4 +1,4 @@
-const calculateRGBAValue = require('../../utils/calculate').calculateRGBAValue
+const calculateRGBAValue = require('../../utils/utils').calculateRGBAValue
 
 class Fade{
     fadeIn(shape,duration){

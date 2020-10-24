@@ -1,4 +1,4 @@
-const calculate = require('../../utils/calculate')
+const utils = require('../../utils/utils')
 const {Visibility,Movement,Fade} = require('../../animations/animation')
 const AnimationFrame = require('../../animations/animationFrame')
 
@@ -22,7 +22,7 @@ class Line{
 
     constructor(x1,y1,x2,y2){
         this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
-        this.ID = calculate.generateRandomId()
+        this.ID = utils.generateRandomId()
         if(x1) this.coordinates.x1 = x1
         if(y1) this.coordinates.y1 = y1
         if(x2) this.coordinates.x2 = x2
@@ -60,12 +60,12 @@ class Line{
         this.rotationAmount += rotationAngle
         if(this.rotationAmount > 360) this.rotationAmount = this.rotationAmount - 360
         if(rotationAngle) this.rotationAngle = rotationAngle * Math.PI/180
-        calculate.updateRotationCoordinates(this,this.rotationAngle)
+        utils.updateRotationCoordinates(this,this.rotationAngle)
         return this
     }
 
     translate(vectorX,vectorY){
-        calculate.updateTranslationCoordiates(this,vectorX,vectorY)
+        utils.updateTranslationCoordiates(this,vectorX,vectorY)
         return this
     }
 

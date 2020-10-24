@@ -5,7 +5,7 @@ const Text = require('./simpleShapes/text')
 const Line = require('./simpleShapes/line')
 const fs = require('fs')
 const path = require('path')
-const calculate = require('../utils/calculate')
+const utils = require('../utils/utils')
 const frustrum = require('../utils/culling/frustrum')
 
 class Renderer{
@@ -41,7 +41,7 @@ class Renderer{
         this.#camera[1] += moveY
         this.#cameraStartPoint[0] += moveX
         this.#cameraStartPoint[1] += moveY
-        calculate.updateShapes(this.#shapesPool,moveX,moveY)
+        utils.updateShapes(this.#shapesPool,moveX,moveY)
         this.#viewFrustrum()
     }
 

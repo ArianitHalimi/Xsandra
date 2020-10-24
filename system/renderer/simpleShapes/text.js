@@ -1,4 +1,4 @@
-const calculate = require('../../utils/calculate')
+const utils = require('../../utils/utils')
 const {Visibility,Movement,Fade} = require('../../animations/animation')
 const AnimationFrame = require('../../animations/animationFrame')
 
@@ -29,7 +29,7 @@ class Text{
 
     constructor(message,x,y){
         this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
-        this.ID = calculate.generateRandomId()
+        this.ID = utils.generateRandomId()
         if(message) this.message = message
         if(x) this.x = x
         if(y) this.y = y
@@ -72,7 +72,7 @@ class Text{
     translate(vectorX,vectorY){
         if(vectorX) this.x += vectorX
         if(vectorY) this.y += vectorY
-        calculate.updateTranslationCoordiates(this,vectorX,vectorY)
+        utils.updateTranslationCoordiates(this,vectorX,vectorY)
         return this
     }
 

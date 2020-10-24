@@ -1,42 +1,40 @@
-const utils = require('../../utils/utils')
 const {Visibility,Movement,Fade} = require('../../animations/animation')
 const AnimationFrame = require('../../animations/animationFrame')
+const utils = require('../../utils/utils')
 
-class Triangle{
+class Ellipse{
     ID
     #ctx
     #animationFrame
-    type = "triangle"
-    subtype = "polygon"
-    centerX
-    centerY
+    type = 'ellipse'
+    subtype = 'ellipse'
+    centerX = 50
+    centerY = 50
+    radiusX = 10
+    radiusY = 20
     color = '#FF0000'
     outline = false
-    outlineColor = '#FF00FF'
-    coordinates = {x1:0,y1:0,x2:20,y2:20,x3:10,y3:20}
-    rotation = false
-    rotationAngle = 0 
+    outlineColor = '#FFFFFF'
     visibilityToggle = false
     fadeToggle = false
+    rotation = false
+    rotationAngle = 0
+    rotationAmount = 0
     #render = true
 
-    constructor(...coordinates){
+    constructor(centerX, centerY, radiusX, radiusY){
         this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
         this.ID = utils.generateRandomId()
-        var j = 0
-        for(var i = 0; i<6;i+=2){
-            j++
-            this.coordinates[`x${j}`] = coordinates[i]
-            this.coordinates[`y${j}`] = coordinates[i+1]
-        }
-        this.centerX = (this.coordinates.x1 + this.coordinates.x2 + this.coordinates.x3) / 3
-        this.centerY = (this.coordinates.y1 + this.coordinates.y2 + this.coordinates.y3) / 3
+        if(centerX) this.centerX = centerX
+        if(centerY) this.centerY = centerY
+        if(radiusX) this.radiusX = radiusX
+        if(radiusY) this.radiusY = radiusY
         this.#animationFrame = new AnimationFrame()
         this.#animationFrame.eventFunctions.push(()=> this.display())
         this.#animationFrame.initialize()
         return this
     }
-
+    
     style(color,outline,outlineColor){
         if(color) this.color = color
         if(outline) this.outline = outline
@@ -45,38 +43,27 @@ class Triangle{
     }
 
     display(){
-        if(this.#render) return this
+        if(!this.#render) return this
         if(this.visibilityToggle) return this
         this.#ctx.save()
         this.#ctx.beginPath()
         this.#ctx.fillStyle = this.color
         if(this.outline) this.#ctx.strokeStyle = this.outlineColor
-        this.#ctx.moveTo(this.coordinates['x1'],this.coordinates['y1'])
-        for(var i=2;i<=3;i++){
-            this.#ctx.lineTo(this.coordinates[`x${i}`],this.coordinates[`y${i}`])
-        }
-        this.#ctx.lineTo(this.coordinates['x1'],this.coordinates['y1'])
+        this.#ctx.ellipse(this.centerX, this.centerY, this.radiusX, this.radiusY, this.rotationAngle, 0, Math.PI*2 ,true)
         this.#ctx.fill()
+        if(this.outline) this.#ctx.stroke()
         this.#ctx.restore()
-        return this
-    }
-
-    rotate(rotationAngle){
-        this.rotation = true
-        this.rotationAngle = rotationAngle * Math.PI/180
-        utils.updateRotationCoordinates(this,this.rotationAngle)
         return this
     }
 
     translate(vectorX,vectorY){
         this.centerX += vectorX
         this.centerY += vectorY
-        utils.updateTranslationCoordiates(this,vectorX,vectorY)
         return this
     }
 
     visibility(visibilityFunction){
-        return Visibility[visibilityFunction](this)
+        return  Visibility[visibilityFunction](this)
     }
 
     move(moveFuntion, speed){
@@ -91,6 +78,19 @@ class Triangle{
         Fade[fadeFunction](this,duration)
     }
 
+    rotate(rotationAngle){
+        this.rotation = true
+        this.rotationAmount += rotationAngle
+        if(this.rotationAmount > 360) this.rotationAmount = this.rotationAmount - 360
+        this.rotationAngle = this.rotationAmount * Math.PI/180
+        return this
+    }
+
+    updateCenter(centerX,centerY){
+        this.centerX = centerX
+        this.centerY = centerY
+    }
+
     disableRender(){
         this.#render = false
     }
@@ -98,6 +98,11 @@ class Triangle{
     enableRender(){
         this.#render = true
     }
+
+    __stopAnimationFrame(flag){
+        if(flag!=='no warn') console.warn('This method is used for system only. As long as you dont know what are you doing, dont use this')
+        window.cancelAnimationFrame(this.#animationFrame.frameID)
+    }
 }
 
-module.exports = Triangle
+module.exports = Ellipse

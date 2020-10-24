@@ -1,5 +1,3 @@
-const view = require('../../index').Renderer
-
 class AnimationFrame{
     frameID
     fps

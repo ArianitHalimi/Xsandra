@@ -1,4 +1,4 @@
-const calculate = require('../../utils/calculate')
+const utils = require('../../utils/utils')
 
 class Movement{
     moveRight(shape,speed){
