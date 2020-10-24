@@ -1,3 +1,5 @@
+const size = require('../systemUtils/size')
+
 module.exports = function polygonPolygon(polygon1, polygon2){
     //https://github.com/davidfig/intersects/blob/master/polygon-polygon.js
     var points1 = []
@@ -55,11 +57,3 @@ module.exports = function polygonPolygon(polygon1, polygon2){
     }
     return true
 }
- 
-size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};

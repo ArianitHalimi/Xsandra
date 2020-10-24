@@ -1,4 +1,6 @@
-const pointPollygonCollision = (pointX,pointY,pollygon) => {
+const size = require('../systemUtils/size')
+
+module.exports = (pointX,pointY,pollygon) => {
     var isOdd = false
     for (let i = 1; i <= size(pollygon.coordinates)/2; i++) {
         var xiX = pollygon.coordinates[`x${i}`]
@@ -12,13 +14,3 @@ const pointPollygonCollision = (pointX,pointY,pollygon) => {
     if(isOdd) return true
     return false
 }
-
-module.exports = pointPollygonCollision
-
-size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};

@@ -13,7 +13,6 @@ class Renderer{
     #cameraStartPoint = [0,0]
     #cameraWidthAndHeight = [0,0]
     #frame = [0,0]
-    #shapesPool = []
 
     screenSize(){
         return [window.innerWidth,window.innerHeight]
@@ -41,7 +40,7 @@ class Renderer{
         this.#camera[1] += moveY
         this.#cameraStartPoint[0] += moveX
         this.#cameraStartPoint[1] += moveY
-        utils.updateShapes(this.#shapesPool,moveX,moveY)
+        utils.updateShapes(core.shapesPool,moveX,moveY)
         this.#viewFrustrum()
     }
 
@@ -54,38 +53,48 @@ class Renderer{
 
     rectangle(height,width,x,y){
         var rect = new Rectangle(height,width,x,y)
-        this.#shapesPool.push(rect)
+        core.shapesPool.push(rect)
         return rect
     }
 
     circle(centerX,centerY,radius){
         var circle = new Circle(centerX,centerY,radius)
-        this.#shapesPool.push(circle)
+        core.shapesPool.push(circle)
         return circle
     }
 
     triangle(...coordinates){
         var triangle = new Triangle(...coordinates)
-        this.#shapesPool.push(triangle)
+        core.shapesPool.push(triangle)
         return triangle
     }
     
     text(message,x,y){
         var text = new Text(message,x,y)
-        this.#shapesPool.push(text)
+        core.shapesPool.push(text)
         return text
     }
     
     line(x1,y1,x2,y2){
         var line = new Line(x1,y1,x2,y2)
-        this.#shapesPool.push(line)
+        core.shapesPool.push(line)
         return line
     }
 
     #viewFrustrum = () => {
-        this.#shapesPool.forEach(shape=>{
+        core.shapesPool.forEach(shape=>{
             frustrum(shape,this.#cameraWidthAndHeight[0],this.#cameraWidthAndHeight[1])
         })
+    }
+
+    destroy(obj){
+        for(var i = 0;i< core.shapesPool.length;i++){
+            if(core.shapesPool[i].ID==obj.ID) core.shapesPool.splice(i,1)
+        }
+        for(var i = 0;i< core.collisionPool.length;i++){
+            if(core.collisionPool[i].ID==obj.ID) core.collisionPool.splice(i,1)
+        }
+        obj.__stopAnimationFrame('no warn')
     }
 }
 

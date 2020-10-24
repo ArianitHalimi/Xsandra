@@ -1,4 +1,5 @@
 const pointEllipseCollision = require('../mouseCollision/pointEllipseCollision')
+const size = require('../systemUtils/size')
 
 const lineEllipseCollision = (lineX1,lineY1,lineX2,lineY2,shape,radius1,radius2) => {
     if(pointEllipseCollision(lineX1,lineY1,shape,radius1,radius2)) return true
@@ -35,11 +36,3 @@ module.exports = (polygon,ellipse,ellipseRadius1,ellipseRadius2,shape) => {
         )
     }
 }
-
-size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};

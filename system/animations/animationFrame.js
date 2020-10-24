@@ -1,6 +1,5 @@
 class AnimationFrame{
     frameID
-    fps
     eventFunctions = []
     initialize(){
         if(this.eventFunctions.length!==0){

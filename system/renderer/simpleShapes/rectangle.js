@@ -107,6 +107,11 @@ class Rectangle{
     enableRender(){
         this.#render = true
     }
+
+    __stopAnimationFrame(flag){
+        if(flag!=='no warn') console.warn('This method is used for system only. As long as you dont know what are you doing, dont use this')
+        window.cancelAnimationFrame(this.#animationFrame.frameID)
+    }
 }
 
 module.exports = Rectangle

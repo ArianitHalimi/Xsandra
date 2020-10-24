@@ -1,3 +1,5 @@
+const size = require('../systemUtils/size')
+
 module.exports = (shape,cameraWidth,cameraHeight) => {
     var isInsideX = false
     var isInsideY = false
@@ -7,11 +9,3 @@ module.exports = (shape,cameraWidth,cameraHeight) => {
     }
     return isInsideX && isInsideY
 }
-
-size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
