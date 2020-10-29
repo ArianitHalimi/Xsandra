@@ -1,6 +1,4 @@
 const AnimationFrame = require('../animations/animationFrame')
-const polygonEllipseCollison = require('../utils/collision/polygonEllipseCollision')
-const polygonPolygonCollision = require('../utils/collision/polygonPolygonCollision')
 const Collision = require('../utils/collision/collision')
 const core = require('../core/core')
 
@@ -20,10 +18,10 @@ class System{
     }
 
     onCollision(callback){
-        this.#animationFrame.eventFunctions.push(()=>{this.foo(callback)})
+        this.#animationFrame.eventFunctions.push(()=>{this.#foo(callback)})
     }
 
-    foo(callback){
+    #foo = (callback) => {
         if(!core.collisionPool) return
         core.collisionPool.forEach(element=>{
             for(var i=0;i<core.collisionPool.length;i++){

@@ -3,16 +3,19 @@ const Circle = require('./simpleShapes/circle')
 const Triangle = require('./simpleShapes/triangle')
 const Text = require('./simpleShapes/text')
 const Line = require('./simpleShapes/line')
+const Asset = require('./complexShapes/assets')
 const fs = require('fs')
 const path = require('path')
 const utils = require('../utils/utils')
 const frustrum = require('../utils/culling/frustrum')
+const core = require('../core/core')
 
 class Renderer{
     #camera = [0,0]
     #cameraStartPoint = [0,0]
     #cameraWidthAndHeight = [0,0]
     #frame = [0,0]
+    #frustrumInterval
 
     screenSize(){
         return [window.innerWidth,window.innerHeight]
@@ -28,7 +31,8 @@ class Renderer{
         this.#camera[1] = cameraY
         this.#cameraWidthAndHeight[0] = cameraX
         this.#cameraWidthAndHeight[1] = cameraY
-        setInterval(()=>{
+        if(this.#frustrumInterval) return
+        this.#frustrumInterval = setInterval(()=>{
             this.#viewFrustrum()
         },1000)
     }
@@ -79,6 +83,12 @@ class Renderer{
         var line = new Line(x1,y1,x2,y2)
         core.shapesPool.push(line)
         return line
+    }
+
+    asset(src,x,y,width,height){
+        var asset = new Asset(src,x,y,width,height)
+        core.shapesPool.push(asset)
+        return asset
     }
 
     #viewFrustrum = () => {

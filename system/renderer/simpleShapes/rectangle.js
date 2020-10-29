@@ -67,6 +67,14 @@ class Rectangle{
         return this
     }
 
+    resetRotation(){
+        this.rotation = false
+        this.rotate(-this.rotationAmount)
+        this.rotationAmount = 0
+        this.rotationAngle = 0
+        return this
+    }
+
     rotate(rotationAngle){
         this.rotation = true
         this.rotationAmount += rotationAngle
