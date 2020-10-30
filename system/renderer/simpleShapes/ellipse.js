@@ -20,7 +20,9 @@ class Ellipse{
     rotation = false
     rotationAngle = 0
     rotationAmount = 0
+    velocity = {dx:10,dy:10}
     #render = true
+    #continuous = false
 
     constructor(centerX, centerY, radiusX, radiusY){
         this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
@@ -30,6 +32,7 @@ class Ellipse{
         if(radiusX) this.radiusX = radiusX
         if(radiusY) this.radiusY = radiusY
         this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventLoop.push('1')
         this.#animationFrame.eventFunctions.push(()=> this.display())
         this.#animationFrame.initialize()
         return this
@@ -72,6 +75,26 @@ class Ellipse{
             return this
         }
         return Movement[moveFuntion](this,speed)
+    }
+
+    continuousMovement(velocity){
+        if(velocity){
+            this.velocity.dx = velocity[0]
+            this.velocity.dy = velocity[1]
+        }
+        if(!this.#continuous){
+            this.#animationFrame.eventLoop.push('2')
+            this.#animationFrame.eventFunctions.push(()=>{this.move('multiple',[this.velocity.dx,this.velocity.dy])})
+        } 
+        this.#continuous = true
+        return this
+    }
+
+    clearMovement(){
+        this.#continuous = false
+        let functionCode = this.#animationFrame.eventLoop.indexOf('2')
+        this.#animationFrame.eventFunctions.splice(functionCode,1)
+        return this
     }
 
     fade(fadeFunction,duration){

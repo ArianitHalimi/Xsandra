@@ -1,6 +1,8 @@
 class AnimationFrame{
     frameID
     eventFunctions = []
+    eventLoop = []
+    
     initialize(){
         if(this.eventFunctions.length!==0){
             for(var i=0;i<this.eventFunctions.length;i++){

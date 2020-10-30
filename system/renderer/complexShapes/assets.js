@@ -20,6 +20,7 @@ class Asset{
     centerY
     visibilityToggle = false
     fadeToggle = false
+    aspectRatio = 0
     #render = true
 
     constructor(src,x,y,width,height){
@@ -41,11 +42,12 @@ class Asset{
         this.image.onload = ()=>{
             this.width = width ? width : this.image.width
             this.height = height ? height : this.image.height
-            this.originalHeight = this.image.height
-            this.originalWidth = this.image.width
+            this.originalHeight = this.image.naturalHeight
+            this.originalWidth = this.image.naturalWidth
             this.centerX = (X+this.width)/2
             this.centerY = (Y+this.height)/2
             this.coordinates = {x1:X,y1:Y,x2:X+this.width,y2:Y,x3:X+this.width,y3:Y+this.height,x4:X,y4:Y+this.height}
+            this.aspectRatio = this.originalWidth/this.originalHeight
         }
         this.#animationFrame = new AnimationFrame()
         this.#animationFrame.eventFunctions.push(()=> this.display())

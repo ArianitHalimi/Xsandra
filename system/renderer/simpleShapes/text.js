@@ -25,7 +25,9 @@ class Text{
     rotationAngle = 0
     visibilityToggle = false
     fadeToggle = false
+    velocity = {dx:10,dy:10}
     #render = true
+    #continuous = false
 
     constructor(message,x,y){
         this.#ctx = document.getElementById('mainframe').getContext('2d', { alpha: false })
@@ -39,6 +41,7 @@ class Text{
         this.centerY = this.x + this.height/2
         this.coordinates = {x1:this.x,y1:this.y,x2:this.x+this.width,y2:this.y,x3:this.x+this.width,y3:this.y+this.height,x4:this.x,y4:this.y+this.height}
         this.#animationFrame = new AnimationFrame()
+        this.#animationFrame.eventLoop.push('1')
         this.#animationFrame.eventFunctions.push(()=> this.display())
         this.#animationFrame.initialize()
         return this
@@ -86,6 +89,26 @@ class Text{
             return this
         }
         return Movement[moveFuntion](this,speed)
+    }
+
+    continuousMovement(velocity){
+        if(velocity){
+            this.velocity.dx = velocity[0]
+            this.velocity.dy = velocity[1]
+        }
+        if(!this.#continuous){
+            this.#animationFrame.eventLoop.push('2')
+            this.#animationFrame.eventFunctions.push(()=>{this.move('multiple',[this.velocity.dx,this.velocity.dy])})
+        } 
+        this.#continuous = true
+        return this
+    }
+
+    clearMovement(){
+        this.#continuous = false
+        let functionCode = this.#animationFrame.eventLoop.indexOf('2')
+        this.#animationFrame.eventFunctions.splice(functionCode,1)
+        return this
     }
 
     fade(fadeFunction,duration){
