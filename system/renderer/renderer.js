@@ -4,6 +4,7 @@ const Triangle = require('./simpleShapes/triangle')
 const Text = require('./simpleShapes/text')
 const Line = require('./simpleShapes/line')
 const Asset = require('./complexShapes/assets')
+const Ellipse = require('./simpleShapes/ellipse')
 const fs = require('fs')
 const path = require('path')
 const utils = require('../utils/utils')
@@ -65,6 +66,12 @@ class Renderer{
         var circle = new Circle(centerX,centerY,radius)
         core.shapesPool.push(circle)
         return circle
+    }
+
+    ellipse(centerX,centerY,radiusX,radiusY){
+        var ellipse = new Ellipse(centerX,centerY,radiusX,radiusY)
+        core.shapesPool.push(ellipse)
+        return ellipse
     }
 
     triangle(...coordinates){

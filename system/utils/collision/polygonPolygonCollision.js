@@ -4,11 +4,11 @@ module.exports = function polygonPolygon(polygon1, polygon2){
     //https://github.com/davidfig/intersects/blob/master/polygon-polygon.js
     var points1 = []
     var points2 = []
-    for(let i=1;i<size(polygon1.coordinates);i++){
+    for(let i=1;i<=size(polygon1.coordinates)/2;i++){
       points1.push(polygon1.coordinates[`x${i}`])
       points1.push(polygon1.coordinates[`y${i}`])
     }
-    for(let i=1;i<size(polygon1.coordinates);i++){
+    for(let i=1;i<=size(polygon2.coordinates)/2;i++){
       points2.push(polygon2.coordinates[`x${i}`])
       points2.push(polygon2.coordinates[`y${i}`])
     }

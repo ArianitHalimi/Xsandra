@@ -7,7 +7,7 @@ class Circle{
     #ctx
     #animationFrame
     type = 'circle'
-    subtype = 'elipse'
+    subtype = 'ellipse'
     centerX = 50
     centerY = 50
     radius = 10
